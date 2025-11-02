@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface PropertyCardProps {
   id: string;
@@ -18,6 +19,7 @@ interface PropertyCardProps {
 }
 
 const PropertyCard = ({
+  id,
   title,
   location,
   price,
@@ -29,9 +31,13 @@ const PropertyCard = ({
   featured = false,
 }: PropertyCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const navigate = useNavigate();
 
   return (
-    <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer">
+    <Card 
+      className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer"
+      onClick={() => navigate(`/property/${id}`)}
+    >
       <div className="relative overflow-hidden">
         <img
           src={image}

@@ -9,37 +9,37 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 15%;
+    --foreground: 0 0% 5%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 15%;
+    --card-foreground: 0 0% 5%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 15%;
+    --popover-foreground: 0 0% 5%;
 
-    --primary: 181 75% 26%;
+    --primary: 0 0% 5%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 15%;
+    --secondary: 210 3% 76%;
+    --secondary-foreground: 0 0% 5%;
 
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
 
     --accent: 43 74% 49%;
-    --accent-foreground: 0 0% 15%;
+    --accent-foreground: 0 0% 5%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 181 75% 26%;
+    --ring: 0 0% 5%;
 
     --radius: 0.75rem;
 
     /* Qara Homes custom tokens */
-    --gradient-hero: linear-gradient(135deg, hsl(181 75% 26% / 0.95), hsl(181 60% 20% / 0.98));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 5% / 0.95), hsl(0 0% 10% / 0.98));
     --gradient-overlay: linear-gradient(180deg, transparent, hsl(0 0% 0% / 0.6));
     --shadow-sm: 0 2px 8px hsl(0 0% 0% / 0.08);
     --shadow-md: 0 4px 16px hsl(0 0% 0% / 0.12);
@@ -49,33 +49,33 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 0 0% 8%;
-    --foreground: 0 0% 95%;
+    --background: 0 0% 5%;
+    --foreground: 0 0% 100%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 95%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 181 75% 35%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 5%;
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 210 3% 76%;
+    --secondary-foreground: 0 0% 5%;
 
     --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
+    --muted-foreground: 0 0% 65%;
 
     --accent: 43 74% 55%;
-    --accent-foreground: 0 0% 10%;
+    --accent-foreground: 0 0% 5%;
 
     --destructive: 0 63% 31%;
-    --destructive-foreground: 0 0% 95%;
+    --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 20%;
     --input: 0 0% 20%;
-    --ring: 181 75% 35%;
+    --ring: 0 0% 100%;
   }
 }
 
