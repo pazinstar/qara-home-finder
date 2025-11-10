@@ -9,7 +9,7 @@ const Hero = () => {
   const [location, setLocation] = useState("");
   const navigate = useNavigate();
 
-  const popularCities = ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret"];
+  const popularCities = ["Thika", "Juja", "Kamakis", "Kinoo", "Kangemi", "Kikuyu"];
 
   const handleSearch = () => {
     if (location.trim()) {

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import PropertyCard from "@/components/PropertyCard";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Award, Shield, HeartHandshake } from "lucide-react";
 
@@ -69,6 +70,7 @@ const Home = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <Hero />
+      <WhatsAppFloat />
 
       {/* Featured Properties Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">

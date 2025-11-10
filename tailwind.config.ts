@@ -70,7 +70,7 @@ export default {
         'sm': 'var(--shadow-sm)',
         'md': 'var(--shadow-md)',
         'lg': 'var(--shadow-lg)',
-        'gold': 'var(--shadow-gold)',
+        'cyan': 'var(--shadow-cyan)',
       },
       keyframes: {
         "accordion-down": {
