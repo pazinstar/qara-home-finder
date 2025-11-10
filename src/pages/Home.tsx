@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import PropertyCard from "@/components/PropertyCard";
@@ -5,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Award, Shield, HeartHandshake } from "lucide-react";
 
 const Home = () => {
+  const navigate = useNavigate();
+  
   // Sample featured properties
   const featuredProperties = [
     {
@@ -87,6 +90,7 @@ const Home = () => {
 
           <div className="text-center">
             <Button
+              onClick={() => navigate('/rent')}
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 group"
             >
@@ -135,14 +139,16 @@ const Home = () => {
           <p className="text-lg mb-8 opacity-90">
             Let us help you discover the perfect property that matches your lifestyle
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center">
             <Button
+              onClick={() => navigate('/request-tour')}
               size="lg"
               className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-8 shadow-gold"
             >
               Request a Tour
             </Button>
             <Button
+              onClick={() => navigate('/contact')}
               size="lg"
               variant="outline"
               className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary font-semibold px-8"

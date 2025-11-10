@@ -1,24 +1,37 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import heroImage from "@/assets/hero-home.jpg";
+import posterImage from "@/assets/hero-video-poster.jpg";
 
 const Hero = () => {
   const [location, setLocation] = useState("");
+  const navigate = useNavigate();
 
   const popularCities = ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret"];
 
+  const handleSearch = () => {
+    if (location.trim()) {
+      navigate(`/rent?location=${encodeURIComponent(location)}`);
+    }
+  };
+
   return (
     <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Background Video with Overlay */}
       <div className="absolute inset-0">
-        <img
-          src={heroImage}
-          alt="Luxury modern home"
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={posterImage}
           className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70" />
+        >
+          <source src="https://cdn.pixabay.com/video/2022/11/07/138419-768661731_large.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-black/80" />
       </div>
 
       {/* Content */}
@@ -43,7 +56,10 @@ const Hero = () => {
                 className="pl-12 h-14 text-base border-border focus:border-primary"
               />
             </div>
-            <Button className="h-14 px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-medium shadow-lg hover:shadow-xl transition-all duration-300">
+            <Button 
+              onClick={handleSearch}
+              className="h-14 px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+            >
               <Search className="mr-2" size={20} />
               Search
             </Button>
@@ -65,17 +81,19 @@ const Hero = () => {
         </div>
 
         {/* CTA Buttons */}
-        <div className="mt-12 flex flex-wrap gap-4 justify-center animate-fade-in">
+        <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in px-4">
           <Button 
+            onClick={() => navigate('/request-tour')}
             size="lg" 
-            className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-8 shadow-gold hover:shadow-xl transition-all duration-300"
+            className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-8 shadow-gold hover:shadow-xl transition-all duration-300 w-full sm:w-auto"
           >
             Request a Tour
           </Button>
           <Button 
+            onClick={() => navigate('/rent')}
             size="lg" 
             variant="outline" 
-            className="border-2 border-white text-white hover:bg-white hover:text-foreground font-semibold px-8 transition-all duration-300"
+            className="border-2 border-white text-white hover:bg-white hover:text-foreground font-semibold px-8 transition-all duration-300 w-full sm:w-auto"
           >
             View All Properties
           </Button>

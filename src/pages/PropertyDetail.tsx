@@ -1,8 +1,20 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 import {
   Carousel,
   CarouselContent,
@@ -22,6 +34,7 @@ import {
   Wind,
   Shield,
   ArrowLeft,
+  Navigation,
 } from "lucide-react";
 
 // Mock property data with multiple images and video
@@ -47,6 +60,7 @@ const getPropertyById = (id: string) => {
       features: ["WiFi", "Parking", "Air Conditioning", "Security", "Garden", "Balcony"],
       yearBuilt: 2022,
       featured: true,
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7744!2d36.7194!3d-1.2921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMTcnMzEuNiJTIDM2wrA0MycxMC4wIkU!5e0!3m2!1sen!2ske!4v1234567890",
     },
     {
       id: "2",
@@ -67,6 +81,7 @@ const getPropertyById = (id: string) => {
       features: ["WiFi", "Parking", "Air Conditioning", "Security", "Gym", "Pool"],
       yearBuilt: 2023,
       featured: true,
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8124!2d36.8076!3d-1.2633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMTUnNDcuOSJTIDM2wrA0OCcyNy40IkU!5e0!3m2!1sen!2ske!4v1234567890",
     },
     {
       id: "3",
@@ -85,6 +100,7 @@ const getPropertyById = (id: string) => {
       description: "Charming studio apartment perfect for young professionals. Modern amenities in a prime location.",
       features: ["WiFi", "Security", "Parking"],
       yearBuilt: 2021,
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8045!2d36.7833!3d-1.2845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMTcnMDQuMiJTIDM2wrA0Nic1OS45IkU!5e0!3m2!1sen!2ske!4v1234567890",
     },
   ];
 
@@ -94,7 +110,13 @@ const getPropertyById = (id: string) => {
 const PropertyDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const property = getPropertyById(id || "");
+  
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [locationUnlocked, setLocationUnlocked] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   if (!property) {
     return (
@@ -109,6 +131,30 @@ const PropertyDetail = () => {
       </div>
     );
   }
+
+  const handlePayment = async () => {
+    if (!phoneNumber || phoneNumber.length < 10) {
+      toast({
+        title: "Invalid Phone Number",
+        description: "Please enter a valid phone number",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsProcessing(true);
+    
+    // Simulate payment processing
+    setTimeout(() => {
+      setIsProcessing(false);
+      setLocationUnlocked(true);
+      setShowPaymentDialog(false);
+      toast({
+        title: "Payment Successful!",
+        description: "The exact location has been unlocked. Scroll down to view the map.",
+      });
+    }, 2000);
+  };
 
   const amenityIcons: Record<string, any> = {
     WiFi: Wifi,
@@ -261,6 +307,27 @@ const PropertyDetail = () => {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Location Map */}
+              {locationUnlocked && (
+                <Card>
+                  <CardContent className="p-6">
+                    <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                      <Navigation className="text-primary" />
+                      Exact Location
+                    </h2>
+                    <div className="aspect-video rounded-lg overflow-hidden">
+                      <iframe
+                        src={property.mapUrl}
+                        title="Property Location"
+                        className="w-full h-full"
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -276,23 +343,31 @@ const PropertyDetail = () => {
                   </div>
 
                   <div className="space-y-3">
-                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" size="lg">
+                    <Button 
+                      onClick={() => navigate('/request-tour')}
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" 
+                      size="lg"
+                    >
                       Request a Tour
                     </Button>
                     <Button
+                      onClick={() => navigate('/contact')}
                       variant="outline"
                       className="w-full"
                       size="lg"
                     >
                       Contact Agent
                     </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      size="lg"
-                    >
-                      Save Property
-                    </Button>
+                    {!locationUnlocked && (
+                      <Button
+                        onClick={() => setShowPaymentDialog(true)}
+                        className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                        size="lg"
+                      >
+                        <Navigation className="mr-2" size={20} />
+                        Get Exact Location
+                      </Button>
+                    )}
                   </div>
 
                   <div className="pt-6 border-t border-border">
@@ -305,6 +380,52 @@ const PropertyDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Payment Dialog */}
+      <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Unlock Exact Location</DialogTitle>
+            <DialogDescription>
+              Pay KES 1,000 (non-refundable) to view the exact location on Google Maps
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="phone">M-Pesa Phone Number</Label>
+              <Input
+                id="phone"
+                placeholder="07XX XXX XXX"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                type="tel"
+              />
+            </div>
+            <div className="bg-muted p-4 rounded-lg space-y-2">
+              <p className="text-sm font-semibold">Payment Details:</p>
+              <p className="text-sm">Amount: <span className="font-bold">KES 1,000</span></p>
+              <p className="text-xs text-muted-foreground">This fee is non-refundable</p>
+            </div>
+          </div>
+          <DialogFooter className="flex-col sm:flex-row gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setShowPaymentDialog(false)}
+              disabled={isProcessing}
+              className="w-full sm:w-auto"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handlePayment}
+              disabled={isProcessing}
+              className="w-full sm:w-auto bg-primary hover:bg-primary/90"
+            >
+              {isProcessing ? "Processing..." : "Pay Now"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
