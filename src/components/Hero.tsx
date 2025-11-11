@@ -46,14 +46,15 @@ const Hero = () => {
           playsInline
           poster={posterImage}
           onLoadedData={() => setIsVideoLoaded(true)}
-          className="w-full h-full object-cover opacity-40"
+          className="w-full h-full object-cover opacity-50"
         >
           <source src="https://cdn.pixabay.com/video/2022/11/07/138419-768661731_large.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/70 to-background" />
+        {/* Strong gradient overlay for better text visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/75 to-background" />
         
-        {/* Animated gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 animate-pulse" style={{ animationDuration: '4s' }} />
+        {/* Purple tinted overlay */}
+        <div className="absolute inset-0 bg-primary/10" />
       </div>
 
       {/* Content */}
@@ -90,7 +91,7 @@ const Hero = () => {
                 <Button 
                   onClick={handleSearch}
                   size="lg"
-                  className="h-16 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-2xl shadow-cyan hover:shadow-xl transition-all duration-300"
+                  className="h-16 px-10 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 text-primary-foreground font-semibold rounded-2xl shadow-purple hover:shadow-xl transition-all duration-300"
                 >
                   <Search className="mr-2" size={22} />
                   Search
@@ -118,7 +119,7 @@ const Hero = () => {
             <Button 
               onClick={() => navigate('/request-tour')}
               size="lg" 
-              className="h-14 px-10 text-lg bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-semibold rounded-2xl shadow-cyan hover:shadow-xl transition-all duration-300 w-full sm:w-auto"
+              className="h-14 px-10 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 text-primary-foreground font-semibold rounded-2xl shadow-purple hover:shadow-xl transition-all duration-300 w-full sm:w-auto"
             >
               <Play className="mr-2" size={20} />
               Request a Tour
@@ -127,7 +128,7 @@ const Hero = () => {
               onClick={() => navigate('/rent')}
               size="lg" 
               variant="outline"
-              className="h-14 px-10 text-lg border-2 border-primary text-foreground hover:bg-primary hover:text-primary-foreground font-semibold rounded-2xl transition-all duration-300 w-full sm:w-auto"
+              className="h-14 px-10 text-lg border-2 border-primary/50 bg-background/30 backdrop-blur-sm text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary font-semibold rounded-2xl transition-all duration-300 w-full sm:w-auto"
             >
               View All Properties
             </Button>
