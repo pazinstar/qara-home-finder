@@ -95,13 +95,30 @@ const PropertyCard = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-2xl font-bold text-primary">{price}</p>
-            {type === "rent" && <p className="text-sm text-muted-foreground">per month</p>}
-          </div>
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-            View Details
+        <div className="mb-4">
+          <p className="text-2xl font-bold text-primary">{price}</p>
+          {type === "rent" && <p className="text-sm text-muted-foreground">per month</p>}
+        </div>
+        
+        <div className="flex gap-2">
+          <Button 
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/view-location?propertyId=${id}`);
+            }}
+            variant="outline"
+            className="flex-1"
+          >
+            View Free
+          </Button>
+          <Button 
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate('/booking');
+            }}
+            className="flex-1"
+          >
+            Book Now
           </Button>
         </div>
       </CardContent>

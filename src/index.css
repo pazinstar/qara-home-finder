@@ -8,75 +8,64 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 280 60% 8%;
-    --foreground: 0 0% 100%;
-
-    --card: 280 50% 12%;
-    --card-foreground: 0 0% 100%;
-
-    --popover: 280 50% 12%;
-    --popover-foreground: 0 0% 100%;
-
-    --primary: 270 80% 60%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 280 70% 70%;
-    --secondary-foreground: 280 60% 8%;
-
-    --muted: 280 40% 18%;
-    --muted-foreground: 0 0% 75%;
-
-    --accent: 270 80% 60%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 280 40% 25%;
-    --input: 280 40% 18%;
-    --ring: 270 80% 60%;
-
-    --radius: 0.75rem;
-
-    /* Qara Homes custom tokens */
-    --gradient-hero: linear-gradient(135deg, hsl(280 60% 5% / 0.9), hsl(280 60% 8% / 0.95));
-    --gradient-overlay: linear-gradient(180deg, hsl(280 60% 8% / 0.3), hsl(280 60% 8% / 0.85));
-    --gradient-primary: linear-gradient(135deg, hsl(270 80% 60%), hsl(280 70% 70%));
-    --shadow-sm: 0 2px 8px hsl(0 0% 0% / 0.1);
-    --shadow-md: 0 4px 16px hsl(0 0% 0% / 0.15);
-    --shadow-lg: 0 12px 32px hsl(0 0% 0% / 0.2);
-    --shadow-purple: 0 8px 32px hsl(270 80% 60% / 0.4);
+    --background: 220 15% 8%;
+    --foreground: 0 0% 98%;
+    --card: 220 15% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 15% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 220 15% 8%;
+    --secondary: 220 10% 20%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 220 10% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 200 80% 50%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 10% 20%;
+    --input: 220 10% 20%;
+    --ring: 0 0% 100%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    
+    --gradient-hero: linear-gradient(135deg, hsl(220, 15%, 8%) 0%, hsl(220, 20%, 15%) 100%);
+    --gradient-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(0, 0%, 100%), hsl(200, 80%, 50%));
+    
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-glow: 0 10px 30px -10px hsl(200 80% 50% / 0.4);
+    
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-    --background: 280 60% 8%;
-    --foreground: 0 0% 100%;
-
-    --card: 280 50% 12%;
-    --card-foreground: 0 0% 100%;
-
-    --popover: 280 50% 12%;
-    --popover-foreground: 0 0% 100%;
-
-    --primary: 270 80% 60%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 280 70% 70%;
-    --secondary-foreground: 280 60% 8%;
-
-    --muted: 280 40% 18%;
-    --muted-foreground: 0 0% 75%;
-
-    --accent: 270 80% 60%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 280 40% 25%;
-    --input: 280 40% 18%;
-    --ring: 270 80% 60%;
+    --background: 220 15% 8%;
+    --foreground: 0 0% 98%;
+    --card: 220 15% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 15% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 220 15% 8%;
+    --secondary: 220 10% 20%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 220 10% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 200 80% 50%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 10% 20%;
+    --input: 220 10% 20%;
+    --ring: 0 0% 100%;
   }
 
   .light {
