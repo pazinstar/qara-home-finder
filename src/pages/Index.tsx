@@ -70,14 +70,27 @@ const Index = () => {
 
       {/* Hero Section */}
       <section className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-muted" />
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: 'brightness(0.4)' }}
+        >
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-modern-apartment-interior-with-large-windows-50542-large.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background/80" />
         
         {/* Logo */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <img 
             src={qaraLogo} 
             alt="QARA HOMES" 
-            className="w-48 h-48 object-contain opacity-20"
+            className="w-48 h-48 object-contain opacity-30"
           />
         </div>
 
