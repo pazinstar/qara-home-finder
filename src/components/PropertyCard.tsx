@@ -11,6 +11,7 @@ interface PropertyCardProps {
   location: string;
   price: string;
   type: "rent" | "sale";
+  category: "airbnb" | "rent" | "sale";
   bedrooms: number;
   bathrooms: number;
   area: string;
@@ -24,6 +25,7 @@ const PropertyCard = ({
   location,
   price,
   type,
+  category,
   bedrooms,
   bathrooms,
   area,
@@ -101,20 +103,22 @@ const PropertyCard = ({
         </div>
         
         <div className="flex gap-2">
+          {category === "airbnb" && (
+            <Button 
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/view-location?propertyId=${id}&category=${category}`);
+              }}
+              variant="outline"
+              className="flex-1"
+            >
+              View Free
+            </Button>
+          )}
           <Button 
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/view-location?propertyId=${id}`);
-            }}
-            variant="outline"
-            className="flex-1"
-          >
-            View Free
-          </Button>
-          <Button 
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate('/booking');
+              navigate(`/booking?propertyId=${id}`);
             }}
             className="flex-1"
           >

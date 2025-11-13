@@ -77,20 +77,19 @@ const Index = () => {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: 'brightness(0.4)' }}
         >
           <source src="https://assets.mixkit.co/videos/preview/mixkit-modern-apartment-interior-with-large-windows-50542-large.mp4" type="video/mp4" />
         </video>
         
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background/50" />
         
         {/* Logo */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <img 
             src={qaraLogo} 
             alt="QARA HOMES" 
-            className="w-48 h-48 object-contain opacity-30"
+            className="w-48 h-48 object-contain opacity-10"
           />
         </div>
 
@@ -209,8 +208,59 @@ const Index = () => {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* Categories */}
       <section className="py-16 px-4 bg-muted/30">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Browse by Category</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div 
+              onClick={() => navigate('/airbnb')}
+              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600" 
+                alt="AirBnB" 
+                className="w-full h-64 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-2">AirBnB</h3>
+                  <p className="text-sm text-white/80">Free location access</p>
+                </div>
+              </div>
+            </div>
+            <div 
+              onClick={() => navigate('/rent')}
+              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600" 
+                alt="For Rent" 
+                className="w-full h-64 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
+                <h3 className="text-2xl font-bold text-white">For Rent</h3>
+              </div>
+            </div>
+            <div 
+              onClick={() => navigate('/buy')}
+              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=600" 
+                alt="For Sale" 
+                className="w-full h-64 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
+                <h3 className="text-2xl font-bold text-white">For Sale</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-16 px-4 bg-background">\
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">

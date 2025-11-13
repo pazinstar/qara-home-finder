@@ -2,82 +2,82 @@ import Navbar from "@/components/Navbar";
 import PropertyCard from "@/components/PropertyCard";
 import FilterPanel from "@/components/FilterPanel";
 
-const Rent = () => {
+const AirBnB = () => {
   const properties = [
     {
       id: "1",
-      title: "Modern 3-Bedroom Villa",
-      location: "Karen, Nairobi",
-      price: "KES 180,000",
+      title: "Modern 2BR Apartment",
+      location: "Thika Road, Nairobi",
+      price: "KES 45,000",
       type: "rent" as const,
-      category: "rent" as const,
-      bedrooms: 3,
-      bathrooms: 3,
-      area: "250 sqm",
-      image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&auto=format&fit=crop",
-      featured: true,
-    },
-    {
-      id: "2",
-      title: "Cozy Studio Apartment",
-      location: "Kilimani, Nairobi",
-      price: "KES 55,000",
-      type: "rent" as const,
-      category: "rent" as const,
-      bedrooms: 1,
-      bathrooms: 1,
-      area: "45 sqm",
-      image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&auto=format&fit=crop",
-    },
-    {
-      id: "3",
-      title: "Spacious 2-Bedroom Flat",
-      location: "Westlands, Nairobi",
-      price: "KES 95,000",
-      type: "rent" as const,
-      category: "rent" as const,
+      category: "airbnb" as const,
       bedrooms: 2,
       bathrooms: 2,
-      area: "120 sqm",
+      area: "85 sqm",
       image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&auto=format&fit=crop",
       featured: true,
     },
     {
-      id: "4",
-      title: "Garden Apartment",
-      location: "Lavington, Nairobi",
-      price: "KES 120,000",
+      id: "2",
+      title: "Luxury 3BR Penthouse",
+      location: "Waiyaki Way, Nairobi",
+      price: "KES 85,000",
       type: "rent" as const,
-      category: "rent" as const,
+      category: "airbnb" as const,
       bedrooms: 3,
-      bathrooms: 2,
-      area: "180 sqm",
-      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&auto=format&fit=crop",
-    },
-    {
-      id: "5",
-      title: "Executive 4-Bedroom House",
-      location: "Runda, Nairobi",
-      price: "KES 250,000",
-      type: "rent" as const,
-      category: "rent" as const,
-      bedrooms: 4,
-      bathrooms: 4,
-      area: "350 sqm",
-      image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&auto=format&fit=crop",
+      bathrooms: 3,
+      area: "150 sqm",
+      image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&auto=format&fit=crop",
       featured: true,
     },
     {
-      id: "6",
-      title: "Modern Loft",
-      location: "Parklands, Nairobi",
-      price: "KES 75,000",
+      id: "3",
+      title: "Cozy Studio in Juja",
+      location: "Juja, Kiambu",
+      price: "KES 25,000",
       type: "rent" as const,
-      category: "rent" as const,
+      category: "airbnb" as const,
+      bedrooms: 1,
+      bathrooms: 1,
+      area: "40 sqm",
+      image: "https://images.unsplash.com/photo-1502672023488-70e25813eb80?w=800&auto=format&fit=crop",
+    },
+    {
+      id: "4",
+      title: "Family 4BR House",
+      location: "Kikuyu, Kiambu",
+      price: "KES 120,000",
+      type: "rent" as const,
+      category: "airbnb" as const,
+      bedrooms: 4,
+      bathrooms: 3,
+      area: "200 sqm",
+      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&auto=format&fit=crop",
+      featured: true,
+    },
+    {
+      id: "5",
+      title: "Executive Loft",
+      location: "Kinoo, Kiambu",
+      price: "KES 65,000",
+      type: "rent" as const,
+      category: "airbnb" as const,
+      bedrooms: 2,
+      bathrooms: 2,
+      area: "95 sqm",
+      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&auto=format&fit=crop",
+    },
+    {
+      id: "6",
+      title: "Garden Apartment",
+      location: "Ruaka, Kiambu",
+      price: "KES 55,000",
+      type: "rent" as const,
+      category: "airbnb" as const,
       bedrooms: 2,
       bathrooms: 1,
-      area: "90 sqm",
-      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&auto=format&fit=crop",
+      area: "75 sqm",
+      image: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=800&auto=format&fit=crop",
     },
   ];
 
@@ -90,10 +90,10 @@ const Rent = () => {
           {/* Header */}
           <div className="mb-12">
             <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-              Properties for Rent
+              AirBnB Properties
             </h1>
             <p className="text-lg text-muted-foreground">
-              Find your perfect rental home in prime locations
+              Short-term rentals with free location access • View exact locations at no cost
             </p>
           </div>
 
@@ -125,4 +125,4 @@ const Rent = () => {
   );
 };
 
-export default Rent;
+export default AirBnB;
