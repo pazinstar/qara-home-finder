@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Buy from "./pages/Buy";
 import Rent from "./pages/Rent";
+import AirBnB from "./pages/AirBnB";
 import RequestTour from "./pages/RequestTour";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -25,6 +26,7 @@ const App = () => (
         <Route path="/" element={<Index />} />
         <Route path="/buy" element={<Buy />} />
         <Route path="/rent" element={<Rent />} />
+        <Route path="/airbnb" element={<AirBnB />} />
         <Route path="/property/:id" element={<PropertyDetail />} />
         <Route path="/request-tour" element={<RequestTour />} />
         <Route path="/booking" element={<BookingForm />} />

@@ -9,6 +9,7 @@ const ViewLocation = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const propertyId = searchParams.get("propertyId") || "1";
+  const category = searchParams.get("category") || "airbnb";
   
   // Mock property data
   const property = {
@@ -92,8 +93,11 @@ const ViewLocation = () => {
 
             {/* Map */}
             <Card className="p-6 border-border">
-              <h3 className="text-xl font-semibold text-foreground mb-4">Location</h3>
-              <div className="aspect-video w-full rounded-lg overflow-hidden">
+              <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                <MapPin className="text-accent" />
+                Location & Directions
+              </h3>
+              <div className="aspect-video w-full rounded-lg overflow-hidden mb-4">
                 <iframe
                   src={property.mapUrl}
                   width="100%"
@@ -105,6 +109,12 @@ const ViewLocation = () => {
                   title="Property Location"
                 />
               </div>
+              <Button
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(property.exactLocation)}`, '_blank')}
+              >
+                Get Directions in Google Maps
+              </Button>
             </Card>
           </div>
 
@@ -112,22 +122,24 @@ const ViewLocation = () => {
           <div className="space-y-6">
             <Card className="p-6 border-border sticky top-24">
               <div className="space-y-4">
-                <div className="bg-accent/10 rounded-lg p-4 text-center">
-                  <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                    <MapPin className="w-6 h-6 text-accent" />
+                {category === "airbnb" && (
+                  <div className="bg-accent/10 rounded-lg p-4 text-center">
+                    <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                      <MapPin className="w-6 h-6 text-accent" />
+                    </div>
+                    <p className="text-sm font-medium text-foreground">
+                      Free Location View
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      AirBnB - Full location details available
+                    </p>
                   </div>
-                  <p className="text-sm font-medium text-foreground">
-                    Free Location View
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Full location details available
-                  </p>
-                </div>
+                )}
 
                 <Button
                   size="lg"
                   className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                  onClick={() => navigate('/booking')}
+                  onClick={() => navigate(`/booking?propertyId=${propertyId}`)}
                 >
                   <Home className="mr-2" />
                   Book This Property
