@@ -78,20 +78,11 @@ const Index = () => {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-modern-apartment-interior-with-large-windows-50542-large.mp4" type="video/mp4" />
+          <source src="https://cdn.pixabay.com/video/2022/11/18/139580-773266310_large.mp4" type="video/mp4" />
         </video>
         
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background/50" />
-        
-        {/* Logo */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <img 
-            src={qaraLogo} 
-            alt="QARA HOMES" 
-            className="w-48 h-48 object-contain opacity-10"
-          />
-        </div>
+        <div className="absolute inset-0 bg-black/40" />
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 tracking-tight">

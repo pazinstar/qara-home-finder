@@ -11,6 +11,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
+    { name: "AirBnB", path: "/airbnb" },
     { name: "Buy", path: "/buy" },
     { name: "Rent", path: "/rent" },
     { name: "Request Tour", path: "/request-tour" },
