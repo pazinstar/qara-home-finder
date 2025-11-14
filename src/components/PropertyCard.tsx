@@ -122,7 +122,7 @@ const PropertyCard = ({
             }}
             className="flex-1"
           >
-            Book Now
+            {category === "airbnb" ? "Book Free" : "Book Now"}
           </Button>
         </div>
       </CardContent>

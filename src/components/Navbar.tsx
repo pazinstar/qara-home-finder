@@ -14,7 +14,7 @@ const Navbar = () => {
     { name: "AirBnB", path: "/airbnb" },
     { name: "Buy", path: "/buy" },
     { name: "Rent", path: "/rent" },
-    { name: "Request Tour", path: "/request-tour" },
+    { name: "Lands", path: "/lands" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
