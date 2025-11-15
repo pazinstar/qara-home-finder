@@ -4,8 +4,7 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Search, MapPin, Home, Star, Calendar, Users } from "lucide-react";
-import qaraLogo from "@/assets/qara-homes-logo.jpeg";
+import { Search, MapPin, Home, Star, Calendar, Users, Building2, Shield, TrendingUp, Award } from "lucide-react";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 const Index = () => {
@@ -61,6 +60,31 @@ const Index = () => {
       reviews: 92,
       type: "Entire house"
     }
+  ];
+
+  const stats = [
+    { icon: Home, label: "Properties", value: "500+" },
+    { icon: Users, label: "Happy Clients", value: "2,000+" },
+    { icon: Building2, label: "Cities", value: "15+" },
+    { icon: Award, label: "Awards Won", value: "25+" },
+  ];
+
+  const features = [
+    {
+      icon: Shield,
+      title: "Verified Properties",
+      description: "All properties are thoroughly verified and inspected for your peace of mind"
+    },
+    {
+      icon: TrendingUp,
+      title: "Best Prices",
+      description: "Competitive pricing with transparent costs and no hidden fees"
+    },
+    {
+      icon: Users,
+      title: "Expert Support",
+      description: "24/7 customer support to help you find your perfect home"
+    },
   ];
 
   return (
@@ -129,12 +153,49 @@ const Index = () => {
             </Button>
             <Button 
               variant="outline"
-              onClick={() => navigate('/request-tour')}
+              onClick={() => navigate('/contact')}
               className="border-border hover:bg-accent hover:text-accent-foreground"
             >
               <Calendar className="mr-2" size={16} />
-              Schedule a Tour
+              Contact Us
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 px-4 bg-muted/30">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <stat.icon className="w-12 h-12 mx-auto mb-4 text-primary" />
+                <div className="text-3xl font-bold text-foreground mb-2">{stat.value}</div>
+                <div className="text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            Why Choose Qara Homes
+          </h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            We're committed to making your property search experience seamless and trustworthy
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
+                <feature.icon className="w-12 h-12 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+                <p className="text-muted-foreground">{feature.description}</p>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
