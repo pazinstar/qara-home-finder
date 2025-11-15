@@ -1,13 +1,14 @@
-import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Moon, Sun, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/contexts/ThemeContext";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const isMobile = useIsMobile();
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -15,7 +16,6 @@ const Navbar = () => {
     { name: "Buy", path: "/buy" },
     { name: "Rent", path: "/rent" },
     { name: "Lands", path: "/lands" },
-    { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -49,7 +49,7 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Theme Toggle & Mobile Menu Button */}
+          {/* Theme Toggle, Auth & Mobile Menu */}
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
@@ -59,35 +59,62 @@ const Navbar = () => {
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </Button>
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-secondary transition-colors"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            
+            <Link to="/auth" className="hidden md:block">
+              <Button variant="ghost" className="gap-2">
+                <LogIn size={18} />
+                Sign In
+              </Button>
+            </Link>
+
+            {isMobile && (
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="md:hidden">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="3" y1="12" x2="21" y2="12" />
+                      <line x1="3" y1="6" x2="21" y2="6" />
+                      <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-[280px]">
+                  <nav className="flex flex-col gap-4 mt-8">
+                    {navLinks.map((link) => (
+                      <Link
+                        key={link.path}
+                        to={link.path}
+                        className={`px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                          isActive(link.path)
+                            ? "bg-primary text-primary-foreground"
+                            : "text-foreground hover:bg-secondary"
+                        }`}
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                    <Link to="/auth" className="mt-4">
+                      <Button className="w-full gap-2">
+                        <LogIn size={18} />
+                        Sign In
+                      </Button>
+                    </Link>
+                  </nav>
+                </SheetContent>
+              </Sheet>
+            )}
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden py-4 space-y-2 animate-fade-in">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setIsOpen(false)}
-                className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive(link.path)
-                    ? "bg-primary text-primary-foreground"
-                    : "text-foreground hover:bg-secondary"
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-        )}
       </div>
     </nav>
   );

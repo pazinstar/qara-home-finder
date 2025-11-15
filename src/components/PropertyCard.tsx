@@ -1,4 +1,4 @@
-import { Heart, MapPin, Bed, Bath, Square } from "lucide-react";
+import { Heart, MapPin, Bed, Bath, Square, Maximize, Globe, FileText } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,11 +10,14 @@ interface PropertyCardProps {
   title: string;
   location: string;
   price: string;
-  type: "rent" | "sale";
+  type: "rent" | "sale" | "land";
   category: "airbnb" | "rent" | "sale";
-  bedrooms: number;
-  bathrooms: number;
-  area: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: string;
+  size?: string;
+  zoning?: string;
+  titleDeed?: string;
   image: string;
   featured?: boolean;
 }
@@ -29,9 +32,13 @@ const PropertyCard = ({
   bedrooms,
   bathrooms,
   area,
+  size,
+  zoning,
+  titleDeed,
   image,
   featured = false,
 }: PropertyCardProps) => {
+  const isLand = type === "land";
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
@@ -81,19 +88,38 @@ const PropertyCard = ({
         </div>
 
         <div className="flex items-center justify-between mb-4 pb-4 border-b border-border">
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <Bed size={18} />
-              <span>{bedrooms}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Bath size={18} />
-              <span>{bathrooms}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Square size={18} />
-              <span>{area}</span>
-            </div>
+          <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
+            {isLand ? (
+              <>
+                <div className="flex items-center gap-1">
+                  <Maximize size={18} />
+                  <span>{size}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Globe size={18} />
+                  <span>{zoning}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <FileText size={18} />
+                  <span>{titleDeed}</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center gap-1">
+                  <Bed size={18} />
+                  <span>{bedrooms}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Bath size={18} />
+                  <span>{bathrooms}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Square size={18} />
+                  <span>{area}</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
