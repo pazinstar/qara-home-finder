@@ -1,10 +1,17 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Home, Calendar, Users, Settings, Menu } from "lucide-react";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Home, Calendar, Users, Settings, Menu, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const AdminLayout = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    navigate("/");
+  };
   
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
@@ -61,6 +68,34 @@ const AdminLayout = () => {
             </SheetContent>
           </Sheet>
           <h1 className="text-lg font-semibold text-foreground">Admin Panel</h1>
+          <div className="ml-auto">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="" />
+                    <AvatarFallback className="bg-primary text-primary-foreground">
+                      <User className="h-4 w-4" />
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-48" align="end">
+                <div className="space-y-2">
+                  <div className="text-sm font-medium">Admin User</div>
+                  <div className="text-xs text-muted-foreground">admin@qarahomes.com</div>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start gap-2" 
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Logout
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
         </header>
 
         {/* Page Content */}

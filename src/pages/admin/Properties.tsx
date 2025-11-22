@@ -12,10 +12,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { toast } from "sonner";
 
 interface MediaFile {
   id: string;
@@ -31,6 +42,9 @@ const Properties = () => {
   const [propertyTitle, setPropertyTitle] = useState("");
   const [images, setImages] = useState<MediaFile[]>([]);
   const [video, setVideo] = useState<MediaFile | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingProperty, setEditingProperty] = useState<any>(null);
+  const [deletePropertyId, setDeletePropertyId] = useState<number | null>(null);
 
   const properties = [
     { id: 1, title: "Lavington Villa", type: "Buy", price: "KSh 45M", status: "Active", beds: 5, baths: 4, owner: "john_doe", images: 8, video: true },
@@ -102,6 +116,40 @@ const Properties = () => {
     }));
   };
 
+  const handleEdit = (property: any) => {
+    setEditingProperty(property);
+    setOwnerUsername(property.owner);
+    setPropertyTitle(property.title);
+    setIsDialogOpen(true);
+  };
+
+  const handleDelete = (id: number) => {
+    setDeletePropertyId(id);
+  };
+
+  const confirmDelete = () => {
+    toast.success("Property deleted successfully");
+    setDeletePropertyId(null);
+  };
+
+  const handleSubmit = () => {
+    if (editingProperty) {
+      toast.success("Property updated successfully");
+    } else {
+      toast.success("Property added successfully");
+    }
+    handleDialogClose();
+  };
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+    setEditingProperty(null);
+    setOwnerUsername("");
+    setPropertyTitle("");
+    setImages([]);
+    setVideo(null);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -109,16 +157,16 @@ const Properties = () => {
           <h2 className="text-3xl font-bold text-foreground">Properties</h2>
           <p className="text-muted-foreground">Manage all property listings</p>
         </div>
-        <Dialog>
+        <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
           <DialogTrigger asChild>
-            <Button className="gap-2">
+            <Button className="gap-2" onClick={() => setIsDialogOpen(true)}>
               <Plus className="h-4 w-4" />
               Add Property
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-4xl max-h-[90vh]">
             <DialogHeader>
-              <DialogTitle>Add New Property</DialogTitle>
+              <DialogTitle>{editingProperty ? "Edit Property" : "Add New Property"}</DialogTitle>
             </DialogHeader>
             <ScrollArea className="max-h-[calc(90vh-8rem)] pr-4">
               <div className="space-y-6">
@@ -290,7 +338,14 @@ const Properties = () => {
                   )}
                 </div>
 
-                <Button className="w-full">Save Property</Button>
+                <div className="flex gap-2">
+                  <Button variant="outline" onClick={handleDialogClose} className="flex-1">
+                    Cancel
+                  </Button>
+                  <Button onClick={handleSubmit} className="flex-1">
+                    {editingProperty ? "Update Property" : "Save Property"}
+                  </Button>
+                </div>
               </div>
             </ScrollArea>
           </DialogContent>
@@ -359,10 +414,10 @@ const Properties = () => {
                       <Button variant="ghost" size="icon">
                         <Eye className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="icon">
+                      <Button variant="ghost" size="icon" onClick={() => handleEdit(property)}>
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="icon">
+                      <Button variant="ghost" size="icon" onClick={() => handleDelete(property.id)}>
                         <Trash2 className="h-4 w-4 text-destructive" />
                       </Button>
                     </div>
@@ -373,6 +428,21 @@ const Properties = () => {
           </Table>
         </CardContent>
       </Card>
+
+      <AlertDialog open={deletePropertyId !== null} onOpenChange={() => setDeletePropertyId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Property</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this property? This will permanently delete all media files and cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
