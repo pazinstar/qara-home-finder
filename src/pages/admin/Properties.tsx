@@ -970,14 +970,12 @@ const Properties = () => {
 
       {/* Add Property Dialog */}
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[95vh] overflow-hidden flex flex-col">
-          <DialogHeader className="flex-shrink-0">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
             <DialogTitle>Add New Property</DialogTitle>
           </DialogHeader>
-          <div className="flex-1 overflow-y-auto min-h-0">
-            <PropertyForm />
-          </div>
-          <div className="flex gap-2 pt-4 border-t flex-shrink-0">
+          <PropertyForm />
+          <div className="flex gap-2 pt-4 border-t">
             <Button variant="outline" onClick={() => { setIsAddDialogOpen(false); resetForm(); }} className="flex-1">
               Cancel
             </Button>
@@ -990,14 +988,12 @@ const Properties = () => {
 
       {/* Edit Property Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[95vh] overflow-hidden flex flex-col">
-          <DialogHeader className="flex-shrink-0">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
             <DialogTitle>Edit Property</DialogTitle>
           </DialogHeader>
-          <div className="flex-1 overflow-y-auto min-h-0">
-            <PropertyForm />
-          </div>
-          <div className="flex gap-2 pt-4 border-t flex-shrink-0">
+          <PropertyForm />
+          <div className="flex gap-2 pt-4 border-t">
             <Button variant="outline" onClick={() => { setIsEditDialogOpen(false); setEditingProperty(null); resetForm(); }} className="flex-1">
               Cancel
             </Button>
@@ -1010,46 +1006,45 @@ const Properties = () => {
 
       {/* View Property Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="max-w-3xl max-h-[95vh] overflow-hidden flex flex-col">
-          <DialogHeader className="flex-shrink-0">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
             <DialogTitle>Property Details</DialogTitle>
           </DialogHeader>
           {viewProperty && (
-            <ScrollArea className="flex-1 pr-4">
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-muted-foreground">Title</Label>
-                    <p className="font-medium">{viewProperty.title}</p>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Owner</Label>
-                    <p className="font-medium">{viewProperty.owner}</p>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Type</Label>
-                    <Badge variant="outline">{viewProperty.type}</Badge>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Status</Label>
-                    <Badge>{viewProperty.status}</Badge>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Price</Label>
-                    <p className="font-medium">{viewProperty.price}</p>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Location</Label>
-                    <p className="font-medium">{viewProperty.location}</p>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Bedrooms</Label>
-                    <p className="font-medium">{viewProperty.beds}</p>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Bathrooms</Label>
-                    <p className="font-medium">{viewProperty.baths}</p>
-                  </div>
+            <div className="pr-4 space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-muted-foreground">Title</Label>
+                  <p className="font-medium">{viewProperty.title}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Owner</Label>
+                  <p className="font-medium">{viewProperty.owner}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Type</Label>
+                  <Badge variant="outline">{viewProperty.type}</Badge>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Status</Label>
+                  <Badge>{viewProperty.status}</Badge>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Price</Label>
+                  <p className="font-medium">{viewProperty.price}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Location</Label>
+                  <p className="font-medium">{viewProperty.location}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Bedrooms</Label>
+                  <p className="font-medium">{viewProperty.beds}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Bathrooms</Label>
+                  <p className="font-medium">{viewProperty.baths}</p>
+                </div>
                 <div>
                   <Label className="text-muted-foreground">Area</Label>
                   <p className="font-medium">{viewProperty.area} sqm</p>
@@ -1103,14 +1098,13 @@ const Properties = () => {
                   ))}
                 </div>
               </div>
-                {viewProperty.video && (
-                  <div>
-                    <Label className="text-muted-foreground">Video</Label>
-                    <p className="text-xs text-muted-foreground mt-1">{viewProperty.video.path}</p>
-                  </div>
-                )}
-              </div>
-            </ScrollArea>
+              {viewProperty.video && (
+                <div>
+                  <Label className="text-muted-foreground">Video</Label>
+                  <p className="text-xs text-muted-foreground mt-1">{viewProperty.video.path}</p>
+                </div>
+              )}
+            </div>
           )}
         </DialogContent>
       </Dialog>
