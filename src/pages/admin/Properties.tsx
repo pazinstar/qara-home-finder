@@ -33,7 +33,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { toast } from "sonner";
 
 interface MediaFile {
@@ -430,8 +430,7 @@ const Properties = () => {
   };
 
   const PropertyForm = () => (
-    <div className="pr-4">
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2">
           <div>
             <Label htmlFor="owner">Owner Username *</Label>
@@ -699,7 +698,6 @@ const Properties = () => {
             </div>
           )}
         </div>
-      </div>
     </div>
   );
 
@@ -970,12 +968,14 @@ const Properties = () => {
 
       {/* Add Property Dialog */}
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="max-w-4xl p-0 max-h-[90vh] flex flex-col">
+          <DialogHeader className="px-6 py-4 border-b shrink-0">
             <DialogTitle>Add New Property</DialogTitle>
           </DialogHeader>
-          <PropertyForm />
-          <div className="flex gap-2 pt-4 border-t">
+          <div className="flex-1 overflow-y-auto px-6 py-4">
+            <PropertyForm />
+          </div>
+          <div className="flex gap-2 px-6 py-4 border-t shrink-0 bg-background">
             <Button variant="outline" onClick={() => { setIsAddDialogOpen(false); resetForm(); }} className="flex-1">
               Cancel
             </Button>
@@ -988,12 +988,14 @@ const Properties = () => {
 
       {/* Edit Property Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="max-w-4xl p-0 max-h-[90vh] flex flex-col">
+          <DialogHeader className="px-6 py-4 border-b shrink-0">
             <DialogTitle>Edit Property</DialogTitle>
           </DialogHeader>
-          <PropertyForm />
-          <div className="flex gap-2 pt-4 border-t">
+          <div className="flex-1 overflow-y-auto px-6 py-4">
+            <PropertyForm />
+          </div>
+          <div className="flex gap-2 px-6 py-4 border-t shrink-0 bg-background">
             <Button variant="outline" onClick={() => { setIsEditDialogOpen(false); setEditingProperty(null); resetForm(); }} className="flex-1">
               Cancel
             </Button>
@@ -1006,104 +1008,106 @@ const Properties = () => {
 
       {/* View Property Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="max-w-3xl p-0 max-h-[90vh] flex flex-col">
+          <DialogHeader className="px-6 py-4 border-b shrink-0">
             <DialogTitle>Property Details</DialogTitle>
           </DialogHeader>
           {viewProperty && (
-            <div className="pr-4 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-muted-foreground">Title</Label>
-                  <p className="font-medium">{viewProperty.title}</p>
+            <div className="flex-1 overflow-y-auto px-6 py-4">
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-muted-foreground">Title</Label>
+                    <p className="font-medium">{viewProperty.title}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Owner</Label>
+                    <p className="font-medium">{viewProperty.owner}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Type</Label>
+                    <Badge variant="outline">{viewProperty.type}</Badge>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Status</Label>
+                    <Badge>{viewProperty.status}</Badge>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Price</Label>
+                    <p className="font-medium">{viewProperty.price}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Location</Label>
+                    <p className="font-medium">{viewProperty.location}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Bedrooms</Label>
+                    <p className="font-medium">{viewProperty.beds}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Bathrooms</Label>
+                    <p className="font-medium">{viewProperty.baths}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Area</Label>
+                    <p className="font-medium">{viewProperty.area} sqm</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Year Built</Label>
+                    <p className="font-medium">{viewProperty.yearBuilt}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Parking</Label>
+                    <p className="font-medium">{viewProperty.parking} spaces</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Furnished</Label>
+                    <Badge variant={viewProperty.furnished ? "default" : "secondary"}>
+                      {viewProperty.furnished ? "Yes" : "No"}
+                    </Badge>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Pet Friendly</Label>
+                    <Badge variant={viewProperty.petFriendly ? "default" : "secondary"}>
+                      {viewProperty.petFriendly ? "Yes" : "No"}
+                    </Badge>
+                  </div>
                 </div>
                 <div>
-                  <Label className="text-muted-foreground">Owner</Label>
-                  <p className="font-medium">{viewProperty.owner}</p>
+                  <Label className="text-muted-foreground">Description</Label>
+                  <p className="mt-1">{viewProperty.description}</p>
                 </div>
+                {viewProperty.amenities.length > 0 && (
+                  <div>
+                    <Label className="text-muted-foreground">Amenities</Label>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {viewProperty.amenities.map((amenity, idx) => (
+                        <Badge key={idx} variant="outline">{amenity}</Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div>
-                  <Label className="text-muted-foreground">Type</Label>
-                  <Badge variant="outline">{viewProperty.type}</Badge>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">Status</Label>
-                  <Badge>{viewProperty.status}</Badge>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">Price</Label>
-                  <p className="font-medium">{viewProperty.price}</p>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">Location</Label>
-                  <p className="font-medium">{viewProperty.location}</p>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">Bedrooms</Label>
-                  <p className="font-medium">{viewProperty.beds}</p>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">Bathrooms</Label>
-                  <p className="font-medium">{viewProperty.baths}</p>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">Area</Label>
-                  <p className="font-medium">{viewProperty.area} sqm</p>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">Year Built</Label>
-                  <p className="font-medium">{viewProperty.yearBuilt}</p>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">Parking</Label>
-                  <p className="font-medium">{viewProperty.parking} spaces</p>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">Furnished</Label>
-                  <Badge variant={viewProperty.furnished ? "default" : "secondary"}>
-                    {viewProperty.furnished ? "Yes" : "No"}
-                  </Badge>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">Pet Friendly</Label>
-                  <Badge variant={viewProperty.petFriendly ? "default" : "secondary"}>
-                    {viewProperty.petFriendly ? "Yes" : "No"}
-                  </Badge>
-                </div>
-              </div>
-              <div>
-                <Label className="text-muted-foreground">Description</Label>
-                <p className="mt-1">{viewProperty.description}</p>
-              </div>
-              {viewProperty.amenities.length > 0 && (
-                <div>
-                  <Label className="text-muted-foreground">Amenities</Label>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {viewProperty.amenities.map((amenity, idx) => (
-                      <Badge key={idx} variant="outline">{amenity}</Badge>
+                  <Label className="text-muted-foreground">Images ({viewProperty.images.length})</Label>
+                  <div className="mt-2 grid grid-cols-3 gap-2">
+                    {viewProperty.images.map(img => (
+                      <div key={img.id} className="border rounded overflow-hidden">
+                        <img 
+                          src={img.preview || "/placeholder.svg"} 
+                          alt={img.name}
+                          className="w-full h-24 object-cover"
+                        />
+                      </div>
                     ))}
                   </div>
                 </div>
-              )}
-              <div>
-                <Label className="text-muted-foreground">Images ({viewProperty.images.length})</Label>
-                <div className="mt-2 grid grid-cols-3 gap-2">
-                  {viewProperty.images.map(img => (
-                    <div key={img.id} className="border rounded overflow-hidden">
-                      <img 
-                        src={img.preview || "/placeholder.svg"} 
-                        alt={img.name}
-                        className="w-full h-24 object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
+                {viewProperty.video && (
+                  <div>
+                    <Label className="text-muted-foreground">Video</Label>
+                    <p className="text-xs text-muted-foreground mt-1">{viewProperty.video.path}</p>
+                  </div>
+                )}
               </div>
-              {viewProperty.video && (
-                <div>
-                  <Label className="text-muted-foreground">Video</Label>
-                  <p className="text-xs text-muted-foreground mt-1">{viewProperty.video.path}</p>
-                </div>
-              )}
             </div>
           )}
         </DialogContent>
