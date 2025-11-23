@@ -20,49 +20,16 @@ const Bookings = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
 
   const bookings = [
-    {
-      id: "BK001",
-      property: "Lavington Villa",
-      user: "John Doe",
-      email: "john@example.com",
-      checkIn: "2025-11-25",
-      checkOut: "2025-11-30",
-      status: "confirmed",
-      amount: "KSh 450,000",
-    },
-    {
-      id: "BK002",
-      property: "Kilimani Apartment",
-      user: "Jane Smith",
-      email: "jane@example.com",
-      checkIn: "2025-11-26",
-      checkOut: "2025-12-26",
-      status: "pending",
-      amount: "KSh 150,000",
-    },
-    {
-      id: "BK003",
-      property: "Karen House",
-      user: "Mike Johnson",
-      email: "mike@example.com",
-      checkIn: "2025-11-27",
-      checkOut: "2025-11-29",
-      status: "confirmed",
-      amount: "KSh 650,000",
-    },
-    {
-      id: "BK004",
-      property: "Westlands Studio",
-      user: "Sarah Lee",
-      email: "sarah@example.com",
-      checkIn: "2025-11-28",
-      checkOut: "2025-11-30",
-      status: "cancelled",
-      amount: "KSh 16,000",
-    },
+    { id: "BK001", property: "Lavington Villa", user: "John Doe", email: "john@example.com", checkIn: "2025-11-25", checkOut: "2025-11-30", status: "confirmed", amount: "KSh 450,000" },
+    { id: "BK002", property: "Kilimani Apartment", user: "Jane Smith", email: "jane@example.com", checkIn: "2025-11-26", checkOut: "2025-12-26", status: "pending", amount: "KSh 150,000" },
+    { id: "BK003", property: "Karen House", user: "Mike Johnson", email: "mike@example.com", checkIn: "2025-11-27", checkOut: "2025-11-29", status: "confirmed", amount: "KSh 650,000" },
+    { id: "BK004", property: "Westlands Studio", user: "Sarah Lee", email: "sarah@example.com", checkIn: "2025-11-28", checkOut: "2025-11-30", status: "cancelled", amount: "KSh 16,000" },
+    { id: "BK005", property: "Runda Mansion", user: "Tom Brown", email: "tom@example.com", checkIn: "2025-11-29", checkOut: "2025-12-05", status: "confirmed", amount: "KSh 950,000" },
+    { id: "BK006", property: "Nyali Beach House", user: "Emily White", email: "emily@example.com", checkIn: "2025-12-01", checkOut: "2025-12-03", status: "pending", amount: "KSh 30,000" },
+    { id: "BK007", property: "Parklands Flat", user: "Chris Green", email: "chris@example.com", checkIn: "2025-12-02", checkOut: "2025-12-15", status: "confirmed", amount: "KSh 80,000" },
   ];
 
   const filteredBookings = bookings.filter(
@@ -94,7 +61,10 @@ const Bookings = () => {
               <Input
                 placeholder="Search bookings..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="pl-9"
               />
             </div>
@@ -176,7 +146,6 @@ const Bookings = () => {
         </CardContent>
       </Card>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <Pagination>
           <PaginationContent>

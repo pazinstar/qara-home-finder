@@ -19,45 +19,16 @@ import {
 const Users = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
 
   const users = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      role: "Customer",
-      status: "Active",
-      joined: "2025-01-15",
-      bookings: 5,
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane@example.com",
-      role: "Customer",
-      status: "Active",
-      joined: "2025-02-20",
-      bookings: 3,
-    },
-    {
-      id: 3,
-      name: "Mike Johnson",
-      email: "mike@example.com",
-      role: "Agent",
-      status: "Active",
-      joined: "2025-03-10",
-      bookings: 12,
-    },
-    {
-      id: 4,
-      name: "Sarah Lee",
-      email: "sarah@example.com",
-      role: "Customer",
-      status: "Inactive",
-      joined: "2025-04-05",
-      bookings: 1,
-    },
+    { id: 1, name: "John Doe", email: "john@example.com", role: "Customer", status: "Active", joined: "2025-01-15", bookings: 5 },
+    { id: 2, name: "Jane Smith", email: "jane@example.com", role: "Customer", status: "Active", joined: "2025-02-20", bookings: 3 },
+    { id: 3, name: "Mike Johnson", email: "mike@example.com", role: "Agent", status: "Active", joined: "2025-03-10", bookings: 12 },
+    { id: 4, name: "Sarah Lee", email: "sarah@example.com", role: "Customer", status: "Inactive", joined: "2025-04-05", bookings: 1 },
+    { id: 5, name: "Tom Brown", email: "tom@example.com", role: "Customer", status: "Active", joined: "2025-05-12", bookings: 7 },
+    { id: 6, name: "Emily White", email: "emily@example.com", role: "Agent", status: "Active", joined: "2025-06-18", bookings: 15 },
+    { id: 7, name: "Chris Green", email: "chris@example.com", role: "Customer", status: "Active", joined: "2025-07-22", bookings: 2 },
   ];
 
   const filteredUsers = users.filter(
@@ -86,7 +57,10 @@ const Users = () => {
             <Input
               placeholder="Search users..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
               className="pl-9"
             />
           </div>
@@ -153,7 +127,6 @@ const Users = () => {
         </CardContent>
       </Card>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <Pagination>
           <PaginationContent>
