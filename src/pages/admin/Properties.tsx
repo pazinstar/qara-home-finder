@@ -430,7 +430,7 @@ const Properties = () => {
   };
 
   const PropertyForm = () => (
-    <ScrollArea className="max-h-[calc(80vh-8rem)] pr-4">
+    <div className="pr-4">
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2">
           <div>
@@ -700,7 +700,7 @@ const Properties = () => {
           )}
         </div>
       </div>
-    </ScrollArea>
+    </div>
   );
 
   return (
@@ -970,12 +970,14 @@ const Properties = () => {
 
       {/* Add Property Dialog */}
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh]">
-          <DialogHeader>
+        <DialogContent className="max-w-4xl max-h-[95vh] overflow-hidden flex flex-col">
+          <DialogHeader className="flex-shrink-0">
             <DialogTitle>Add New Property</DialogTitle>
           </DialogHeader>
-          <PropertyForm />
-          <div className="flex gap-2 pt-4 border-t">
+          <div className="flex-1 overflow-y-auto min-h-0">
+            <PropertyForm />
+          </div>
+          <div className="flex gap-2 pt-4 border-t flex-shrink-0">
             <Button variant="outline" onClick={() => { setIsAddDialogOpen(false); resetForm(); }} className="flex-1">
               Cancel
             </Button>
@@ -988,12 +990,14 @@ const Properties = () => {
 
       {/* Edit Property Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh]">
-          <DialogHeader>
+        <DialogContent className="max-w-4xl max-h-[95vh] overflow-hidden flex flex-col">
+          <DialogHeader className="flex-shrink-0">
             <DialogTitle>Edit Property</DialogTitle>
           </DialogHeader>
-          <PropertyForm />
-          <div className="flex gap-2 pt-4 border-t">
+          <div className="flex-1 overflow-y-auto min-h-0">
+            <PropertyForm />
+          </div>
+          <div className="flex gap-2 pt-4 border-t flex-shrink-0">
             <Button variant="outline" onClick={() => { setIsEditDialogOpen(false); setEditingProperty(null); resetForm(); }} className="flex-1">
               Cancel
             </Button>
@@ -1006,12 +1010,12 @@ const Properties = () => {
 
       {/* View Property Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
+        <DialogContent className="max-w-3xl max-h-[95vh] overflow-hidden flex flex-col">
+          <DialogHeader className="flex-shrink-0">
             <DialogTitle>Property Details</DialogTitle>
           </DialogHeader>
           {viewProperty && (
-            <ScrollArea className="max-h-[70vh]">
+            <ScrollArea className="flex-1 pr-4">
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
