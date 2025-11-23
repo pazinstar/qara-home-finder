@@ -67,6 +67,320 @@ interface Property {
   dateAdded: string;
 }
 
+interface PropertyFormProps {
+  formData: {
+    owner: string;
+    title: string;
+    type: string;
+    price: string;
+    beds: number;
+    baths: number;
+    area: number;
+    location: string;
+    description: string;
+    status: string;
+    amenities: string[];
+    yearBuilt: number;
+    parking: number;
+    furnished: boolean;
+    petFriendly: boolean;
+  };
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  images: MediaFile[];
+  setImages: React.Dispatch<React.SetStateAction<MediaFile[]>>;
+  video: MediaFile | null;
+  setVideo: React.Dispatch<React.SetStateAction<MediaFile | null>>;
+  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleVideoUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  removeImage: (id: string) => void;
+  removeVideo: () => void;
+  renameImage: (id: string, newName: string) => void;
+}
+
+const PropertyForm = ({ 
+  formData, 
+  setFormData, 
+  images, 
+  setImages,
+  video, 
+  setVideo,
+  handleImageUpload,
+  handleVideoUpload,
+  removeImage,
+  removeVideo,
+  renameImage
+}: PropertyFormProps) => (
+  <div className="space-y-6">
+      <div className="grid gap-4 md:grid-cols-2">
+        <div>
+          <Label htmlFor="owner">Owner Username *</Label>
+          <Input 
+            id="owner" 
+            placeholder="e.g. john_doe" 
+            value={formData.owner}
+            onChange={(e) => setFormData({...formData, owner: e.target.value})}
+          />
+          <p className="text-xs text-muted-foreground mt-1">
+            Files saved in: public/{formData.owner || 'username'}/
+          </p>
+        </div>
+        <div>
+          <Label htmlFor="title">Property Title *</Label>
+          <Input 
+            id="title" 
+            placeholder="Enter property title"
+            value={formData.title}
+            onChange={(e) => setFormData({...formData, title: e.target.value})}
+          />
+        </div>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div>
+          <Label htmlFor="type">Type</Label>
+          <Select value={formData.type} onValueChange={(value) => setFormData({...formData, type: value})}>
+            <SelectTrigger id="type">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="buy">Buy</SelectItem>
+              <SelectItem value="rent">Rent</SelectItem>
+              <SelectItem value="airbnb">AirBnB</SelectItem>
+              <SelectItem value="land">Land</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label htmlFor="price">Price</Label>
+          <Input 
+            id="price" 
+            placeholder="e.g. KSh 45M" 
+            value={formData.price}
+            onChange={(e) => setFormData({...formData, price: e.target.value})}
+          />
+        </div>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <div>
+          <Label htmlFor="beds">Bedrooms</Label>
+          <Input 
+            id="beds" 
+            type="number" 
+            value={formData.beds}
+            onChange={(e) => setFormData({...formData, beds: parseInt(e.target.value) || 0})}
+          />
+        </div>
+        <div>
+          <Label htmlFor="baths">Bathrooms</Label>
+          <Input 
+            id="baths" 
+            type="number" 
+            value={formData.baths}
+            onChange={(e) => setFormData({...formData, baths: parseInt(e.target.value) || 0})}
+          />
+        </div>
+        <div>
+          <Label htmlFor="area">Area (sqm)</Label>
+          <Input 
+            id="area" 
+            type="number" 
+            value={formData.area}
+            onChange={(e) => setFormData({...formData, area: parseInt(e.target.value) || 0})}
+          />
+        </div>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div>
+          <Label htmlFor="location">Location</Label>
+          <Input 
+            id="location" 
+            placeholder="Enter location"
+            value={formData.location}
+            onChange={(e) => setFormData({...formData, location: e.target.value})}
+          />
+        </div>
+        <div>
+          <Label htmlFor="status">Status</Label>
+          <Select value={formData.status} onValueChange={(value) => setFormData({...formData, status: value})}>
+            <SelectTrigger id="status">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="active">Active</SelectItem>
+              <SelectItem value="pending">Pending</SelectItem>
+              <SelectItem value="sold">Sold</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="description">Description</Label>
+        <Textarea 
+          id="description" 
+          placeholder="Enter property description" 
+          rows={4}
+          value={formData.description}
+          onChange={(e) => setFormData({...formData, description: e.target.value})}
+        />
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <div>
+          <Label htmlFor="yearBuilt">Year Built</Label>
+          <Input 
+            id="yearBuilt" 
+            type="number" 
+            value={formData.yearBuilt}
+            onChange={(e) => setFormData({...formData, yearBuilt: parseInt(e.target.value) || new Date().getFullYear()})}
+          />
+        </div>
+        <div>
+          <Label htmlFor="parking">Parking Spaces</Label>
+          <Input 
+            id="parking" 
+            type="number" 
+            value={formData.parking}
+            onChange={(e) => setFormData({...formData, parking: parseInt(e.target.value) || 0})}
+          />
+        </div>
+        <div className="flex items-center space-x-4 pt-8">
+          <div className="flex items-center space-x-2">
+            <input 
+              id="furnished" 
+              type="checkbox"
+              className="h-4 w-4 rounded border-border"
+              checked={formData.furnished}
+              onChange={(e) => setFormData({...formData, furnished: e.target.checked})}
+            />
+            <Label htmlFor="furnished" className="cursor-pointer">Furnished</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <input 
+              id="petFriendly" 
+              type="checkbox"
+              className="h-4 w-4 rounded border-border"
+              checked={formData.petFriendly}
+              onChange={(e) => setFormData({...formData, petFriendly: e.target.checked})}
+            />
+            <Label htmlFor="petFriendly" className="cursor-pointer">Pet Friendly</Label>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="amenities">Amenities (comma separated)</Label>
+        <Input 
+          id="amenities" 
+          placeholder="e.g. Swimming Pool, Gym, Garden, Security"
+          value={formData.amenities.join(", ")}
+          onChange={(e) => setFormData({...formData, amenities: e.target.value.split(",").map(a => a.trim()).filter(Boolean)})}
+        />
+      </div>
+
+      {/* Images Upload */}
+      <div className="space-y-4 border-t pt-4">
+        <h3 className="font-semibold text-foreground flex items-center gap-2">
+          <ImageIcon className="h-5 w-5" />
+          Property Images (Multiple)
+        </h3>
+        
+        <Label htmlFor="images" className="cursor-pointer">
+          <div className="flex items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-lg hover:border-primary transition-colors">
+            <div className="text-center">
+              <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+              <p className="text-sm text-muted-foreground">Click to upload images</p>
+              <p className="text-xs text-muted-foreground mt-1">Multiple files supported</p>
+            </div>
+          </div>
+          <Input 
+            id="images" 
+            type="file" 
+            accept="image/*" 
+            multiple 
+            className="hidden"
+            onChange={handleImageUpload}
+          />
+        </Label>
+
+        {images.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {images.map((img) => (
+              <div key={img.id} className="relative border rounded-lg overflow-hidden bg-muted/50">
+                <img 
+                  src={img.preview || "/placeholder.svg"} 
+                  alt={img.name}
+                  className="w-full h-32 object-cover"
+                />
+                <div className="p-2 space-y-1">
+                  <Input 
+                    value={img.name} 
+                    onChange={(e) => renameImage(img.id, e.target.value)}
+                    className="h-7 text-xs"
+                  />
+                  <p className="text-xs text-muted-foreground truncate">{img.path}</p>
+                </div>
+                <Button 
+                  variant="destructive" 
+                  size="icon" 
+                  className="absolute top-2 right-2 h-6 w-6"
+                  onClick={() => removeImage(img.id)}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Video Upload */}
+      <div className="space-y-4 border-t pt-4">
+        <h3 className="font-semibold text-foreground flex items-center gap-2">
+          <FileVideo className="h-5 w-5" />
+          Property Video (Single)
+        </h3>
+        
+        {!video ? (
+          <Label htmlFor="video" className="cursor-pointer">
+            <div className="flex items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-lg hover:border-primary transition-colors">
+              <div className="text-center">
+                <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                <p className="text-sm text-muted-foreground">Click to upload video</p>
+                <p className="text-xs text-muted-foreground mt-1">Single video file</p>
+              </div>
+            </div>
+            <Input 
+              id="video" 
+              type="file" 
+              accept="video/*" 
+              className="hidden"
+              onChange={handleVideoUpload}
+            />
+          </Label>
+        ) : (
+          <div className="flex items-center gap-2 p-2 border rounded-lg bg-muted/50">
+            <FileVideo className="h-4 w-4 text-muted-foreground" />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium truncate">{video.name}</p>
+              <p className="text-xs text-muted-foreground truncate">{video.path}</p>
+            </div>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-8 w-8"
+              onClick={removeVideo}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
+      </div>
+  </div>
+);
+
 const Properties = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -429,278 +743,6 @@ const Properties = () => {
     setIsViewDialogOpen(true);
   };
 
-  const PropertyForm = () => (
-    <div className="space-y-6">
-        <div className="grid gap-4 md:grid-cols-2">
-          <div>
-            <Label htmlFor="owner">Owner Username *</Label>
-            <Input 
-              id="owner" 
-              placeholder="e.g. john_doe" 
-              value={formData.owner}
-              onChange={(e) => setFormData({...formData, owner: e.target.value})}
-            />
-            <p className="text-xs text-muted-foreground mt-1">
-              Files saved in: public/{formData.owner || 'username'}/
-            </p>
-          </div>
-          <div>
-            <Label htmlFor="title">Property Title *</Label>
-            <Input 
-              id="title" 
-              placeholder="Enter property title"
-              value={formData.title}
-              onChange={(e) => setFormData({...formData, title: e.target.value})}
-            />
-          </div>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <div>
-            <Label htmlFor="type">Type</Label>
-            <Select value={formData.type} onValueChange={(value) => setFormData({...formData, type: value})}>
-              <SelectTrigger id="type">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="buy">Buy</SelectItem>
-                <SelectItem value="rent">Rent</SelectItem>
-                <SelectItem value="airbnb">AirBnB</SelectItem>
-                <SelectItem value="land">Land</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Label htmlFor="price">Price</Label>
-            <Input 
-              id="price" 
-              placeholder="e.g. KSh 45M" 
-              value={formData.price}
-              onChange={(e) => setFormData({...formData, price: e.target.value})}
-            />
-          </div>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-3">
-          <div>
-            <Label htmlFor="beds">Bedrooms</Label>
-            <Input 
-              id="beds" 
-              type="number" 
-              value={formData.beds}
-              onChange={(e) => setFormData({...formData, beds: parseInt(e.target.value) || 0})}
-            />
-          </div>
-          <div>
-            <Label htmlFor="baths">Bathrooms</Label>
-            <Input 
-              id="baths" 
-              type="number" 
-              value={formData.baths}
-              onChange={(e) => setFormData({...formData, baths: parseInt(e.target.value) || 0})}
-            />
-          </div>
-          <div>
-            <Label htmlFor="area">Area (sqm)</Label>
-            <Input 
-              id="area" 
-              type="number" 
-              value={formData.area}
-              onChange={(e) => setFormData({...formData, area: parseInt(e.target.value) || 0})}
-            />
-          </div>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <div>
-            <Label htmlFor="location">Location</Label>
-            <Input 
-              id="location" 
-              placeholder="Enter location"
-              value={formData.location}
-              onChange={(e) => setFormData({...formData, location: e.target.value})}
-            />
-          </div>
-          <div>
-            <Label htmlFor="status">Status</Label>
-            <Select value={formData.status} onValueChange={(value) => setFormData({...formData, status: value})}>
-              <SelectTrigger id="status">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="sold">Sold</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        <div>
-          <Label htmlFor="description">Description</Label>
-          <Textarea 
-            id="description" 
-            placeholder="Enter property description" 
-            rows={4}
-            value={formData.description}
-            onChange={(e) => setFormData({...formData, description: e.target.value})}
-          />
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-3">
-          <div>
-            <Label htmlFor="yearBuilt">Year Built</Label>
-            <Input 
-              id="yearBuilt" 
-              type="number" 
-              value={formData.yearBuilt}
-              onChange={(e) => setFormData({...formData, yearBuilt: parseInt(e.target.value) || new Date().getFullYear()})}
-            />
-          </div>
-          <div>
-            <Label htmlFor="parking">Parking Spaces</Label>
-            <Input 
-              id="parking" 
-              type="number" 
-              value={formData.parking}
-              onChange={(e) => setFormData({...formData, parking: parseInt(e.target.value) || 0})}
-            />
-          </div>
-          <div className="flex items-center space-x-4 pt-8">
-            <div className="flex items-center space-x-2">
-              <input 
-                id="furnished" 
-                type="checkbox"
-                className="h-4 w-4 rounded border-border"
-                checked={formData.furnished}
-                onChange={(e) => setFormData({...formData, furnished: e.target.checked})}
-              />
-              <Label htmlFor="furnished" className="cursor-pointer">Furnished</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <input 
-                id="petFriendly" 
-                type="checkbox"
-                className="h-4 w-4 rounded border-border"
-                checked={formData.petFriendly}
-                onChange={(e) => setFormData({...formData, petFriendly: e.target.checked})}
-              />
-              <Label htmlFor="petFriendly" className="cursor-pointer">Pet Friendly</Label>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <Label htmlFor="amenities">Amenities (comma separated)</Label>
-          <Input 
-            id="amenities" 
-            placeholder="e.g. Swimming Pool, Gym, Garden, Security"
-            value={formData.amenities.join(", ")}
-            onChange={(e) => setFormData({...formData, amenities: e.target.value.split(",").map(a => a.trim()).filter(Boolean)})}
-          />
-        </div>
-
-        {/* Images Upload */}
-        <div className="space-y-4 border-t pt-4">
-          <h3 className="font-semibold text-foreground flex items-center gap-2">
-            <ImageIcon className="h-5 w-5" />
-            Property Images (Multiple)
-          </h3>
-          
-          <Label htmlFor="images" className="cursor-pointer">
-            <div className="flex items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-lg hover:border-primary transition-colors">
-              <div className="text-center">
-                <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">Click to upload images</p>
-                <p className="text-xs text-muted-foreground mt-1">Multiple files supported</p>
-              </div>
-            </div>
-            <Input 
-              id="images" 
-              type="file" 
-              accept="image/*" 
-              multiple 
-              className="hidden"
-              onChange={handleImageUpload}
-            />
-          </Label>
-
-          {images.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {images.map((img) => (
-                <div key={img.id} className="relative border rounded-lg overflow-hidden bg-muted/50">
-                  <img 
-                    src={img.preview || "/placeholder.svg"} 
-                    alt={img.name}
-                    className="w-full h-32 object-cover"
-                  />
-                  <div className="p-2 space-y-1">
-                    <Input 
-                      value={img.name} 
-                      onChange={(e) => renameImage(img.id, e.target.value)}
-                      className="h-7 text-xs"
-                    />
-                    <p className="text-xs text-muted-foreground truncate">{img.path}</p>
-                  </div>
-                  <Button 
-                    variant="destructive" 
-                    size="icon" 
-                    className="absolute top-2 right-2 h-6 w-6"
-                    onClick={() => removeImage(img.id)}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Video Upload */}
-        <div className="space-y-4 border-t pt-4">
-          <h3 className="font-semibold text-foreground flex items-center gap-2">
-            <FileVideo className="h-5 w-5" />
-            Property Video (Single)
-          </h3>
-          
-          {!video ? (
-            <Label htmlFor="video" className="cursor-pointer">
-              <div className="flex items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-lg hover:border-primary transition-colors">
-                <div className="text-center">
-                  <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">Click to upload video</p>
-                  <p className="text-xs text-muted-foreground mt-1">Single video file</p>
-                </div>
-              </div>
-              <Input 
-                id="video" 
-                type="file" 
-                accept="video/*" 
-                className="hidden"
-                onChange={handleVideoUpload}
-              />
-            </Label>
-          ) : (
-            <div className="flex items-center gap-2 p-2 border rounded-lg bg-muted/50">
-              <FileVideo className="h-4 w-4 text-muted-foreground" />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{video.name}</p>
-                <p className="text-xs text-muted-foreground truncate">{video.path}</p>
-              </div>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8"
-                onClick={removeVideo}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          )}
-        </div>
-    </div>
-  );
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -973,7 +1015,19 @@ const Properties = () => {
             <DialogTitle>Add New Property</DialogTitle>
           </DialogHeader>
           <div className="flex-1 overflow-y-auto px-6 py-4">
-            <PropertyForm />
+            <PropertyForm
+              formData={formData}
+              setFormData={setFormData}
+              images={images}
+              setImages={setImages}
+              video={video}
+              setVideo={setVideo}
+              handleImageUpload={handleImageUpload}
+              handleVideoUpload={handleVideoUpload}
+              removeImage={removeImage}
+              removeVideo={removeVideo}
+              renameImage={renameImage}
+            />
           </div>
           <div className="flex gap-2 px-6 py-4 border-t shrink-0 bg-background">
             <Button variant="outline" onClick={() => { setIsAddDialogOpen(false); resetForm(); }} className="flex-1">
@@ -993,7 +1047,19 @@ const Properties = () => {
             <DialogTitle>Edit Property</DialogTitle>
           </DialogHeader>
           <div className="flex-1 overflow-y-auto px-6 py-4">
-            <PropertyForm />
+            <PropertyForm
+              formData={formData}
+              setFormData={setFormData}
+              images={images}
+              setImages={setImages}
+              video={video}
+              setVideo={setVideo}
+              handleImageUpload={handleImageUpload}
+              handleVideoUpload={handleVideoUpload}
+              removeImage={removeImage}
+              removeVideo={removeVideo}
+              renameImage={renameImage}
+            />
           </div>
           <div className="flex gap-2 px-6 py-4 border-t shrink-0 bg-background">
             <Button variant="outline" onClick={() => { setIsEditDialogOpen(false); setEditingProperty(null); resetForm(); }} className="flex-1">
