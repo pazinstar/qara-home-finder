@@ -14,15 +14,16 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { CalendarIcon, List, Map, MapPin, Users, X } from "lucide-react";
+import { CalendarIcon, Check, ChevronsUpDown, List, Map, MapPin, Users, X } from "lucide-react";
 import AirBnBMap from "@/components/AirBnBMap";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 
 interface AirBnBProperty {
   id: string;
@@ -52,6 +53,7 @@ const AirBnB = () => {
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<string>("");
+  const [locationOpen, setLocationOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
 
   const propertyTypes = ["Bedsitter", "Studio", "1 Bedroom", "2 Bedroom", "3 Bedroom", "4+ Bedroom"];
@@ -367,19 +369,60 @@ const AirBnB = () => {
                 {/* Location Filter */}
                 <div className="flex-1 space-y-2">
                   <Label>Location</Label>
-                  <Select value={selectedLocation || "all"} onValueChange={(val) => setSelectedLocation(val === "all" ? "" : val)}>
-                    <SelectTrigger className="w-full">
-                      <MapPin className="mr-2 h-4 w-4" />
-                      <SelectValue placeholder="All Locations" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-popover z-50">
-                      {locations.map((loc) => (
-                        <SelectItem key={loc.value} value={loc.value || "all"}>
-                          {loc.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Popover open={locationOpen} onOpenChange={setLocationOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={locationOpen}
+                        className="w-full justify-between"
+                      >
+                        <div className="flex items-center">
+                          <MapPin className="mr-2 h-4 w-4" />
+                          {selectedLocation
+                            ? locations.find((loc) => loc.value === selectedLocation)?.label || selectedLocation
+                            : "All Locations"}
+                        </div>
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0 bg-popover z-50">
+                      <Command>
+                        <CommandInput
+                          placeholder="Search or type location..."
+                          value={selectedLocation}
+                          onValueChange={(value) => setSelectedLocation(value)}
+                        />
+                        <CommandList>
+                          <CommandEmpty>
+                            <span className="text-sm text-muted-foreground">
+                              Using: "{selectedLocation}"
+                            </span>
+                          </CommandEmpty>
+                          <CommandGroup>
+                            {locations.map((loc) => (
+                              <CommandItem
+                                key={loc.value || "all"}
+                                value={loc.label}
+                                onSelect={() => {
+                                  setSelectedLocation(loc.value);
+                                  setLocationOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    selectedLocation === loc.value ? "opacity-100" : "opacity-0"
+                                  )}
+                                />
+                                {loc.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                 </div>
 
                 {/* Clear Filters */}
