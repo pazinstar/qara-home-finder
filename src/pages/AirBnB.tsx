@@ -14,7 +14,8 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { CalendarIcon, MapPin, Users, X } from "lucide-react";
+import { CalendarIcon, List, Map, MapPin, Users, X } from "lucide-react";
+import AirBnBMap from "@/components/AirBnBMap";
 import {
   Select,
   SelectContent,
@@ -51,6 +52,7 @@ const AirBnB = () => {
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<string>("");
+  const [viewMode, setViewMode] = useState<"list" | "map">("list");
 
   const propertyTypes = ["Bedsitter", "Studio", "1 Bedroom", "2 Bedroom", "3 Bedroom", "4+ Bedroom"];
   const locations = [
@@ -470,14 +472,38 @@ const AirBnB = () => {
                 <p className="text-muted-foreground">
                   Showing {filteredProperties.length} of {properties.length} properties
                 </p>
-                {checkIn && checkOut && (
-                  <p className="text-sm text-primary font-medium">
-                    {Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24))} nights selected
-                  </p>
-                )}
+                <div className="flex items-center gap-4">
+                  {checkIn && checkOut && (
+                    <p className="text-sm text-primary font-medium">
+                      {Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24))} nights selected
+                    </p>
+                  )}
+                  <div className="flex items-center border rounded-lg overflow-hidden">
+                    <Button
+                      variant={viewMode === "list" ? "default" : "ghost"}
+                      size="sm"
+                      onClick={() => setViewMode("list")}
+                      className="rounded-none"
+                    >
+                      <List className="h-4 w-4 mr-1" />
+                      List
+                    </Button>
+                    <Button
+                      variant={viewMode === "map" ? "default" : "ghost"}
+                      size="sm"
+                      onClick={() => setViewMode("map")}
+                      className="rounded-none"
+                    >
+                      <Map className="h-4 w-4 mr-1" />
+                      Map
+                    </Button>
+                  </div>
+                </div>
               </div>
 
-              {filteredProperties.length === 0 ? (
+              {viewMode === "map" ? (
+                <AirBnBMap properties={filteredProperties} />
+              ) : filteredProperties.length === 0 ? (
                 <div className="text-center py-12">
                   <p className="text-lg text-muted-foreground mb-4">
                     No properties match your filters
