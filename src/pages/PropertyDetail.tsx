@@ -35,7 +35,9 @@ import {
   Shield,
   ArrowLeft,
   Navigation,
+  ZoomIn,
 } from "lucide-react";
+import ImagePreviewModal from "@/components/ImagePreviewModal";
 
 // Mock property data with multiple images and video
 const getPropertyById = (id: string) => {
@@ -117,6 +119,13 @@ const PropertyDetail = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [locationUnlocked, setLocationUnlocked] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [imagePreviewOpen, setImagePreviewOpen] = useState(false);
+  const [previewImageIndex, setPreviewImageIndex] = useState(0);
+
+  const openImagePreview = (index: number) => {
+    setPreviewImageIndex(index);
+    setImagePreviewOpen(true);
+  };
 
   if (!property) {
     return (
@@ -190,12 +199,18 @@ const PropertyDetail = () => {
             <CarouselContent>
               {property.images.map((image, index) => (
                 <CarouselItem key={index}>
-                  <div className="relative h-[400px] md:h-[600px] rounded-2xl overflow-hidden">
+                  <div 
+                    className="relative h-[400px] md:h-[600px] rounded-2xl overflow-hidden cursor-pointer group"
+                    onClick={() => openImagePreview(index)}
+                  >
                     <img
                       src={image}
                       alt={`${property.title} - Image ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                      <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transition-opacity" size={48} />
+                    </div>
                   </div>
                 </CarouselItem>
               ))}
@@ -426,6 +441,15 @@ const PropertyDetail = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Image Preview Modal */}
+      <ImagePreviewModal
+        images={property.images}
+        initialIndex={previewImageIndex}
+        isOpen={imagePreviewOpen}
+        onClose={() => setImagePreviewOpen(false)}
+        altPrefix={property.title}
+      />
     </div>
   );
 };
