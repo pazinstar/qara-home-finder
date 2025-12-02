@@ -62,13 +62,6 @@ const Index = () => {
     }
   ];
 
-  const stats = [
-    { icon: Home, label: "Properties", value: "500+" },
-    { icon: Users, label: "Happy Clients", value: "2,000+" },
-    { icon: Building2, label: "Cities", value: "15+" },
-    { icon: Award, label: "Awards Won", value: "25+" },
-  ];
-
   const features = [
     {
       icon: Shield,
@@ -163,39 +156,53 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Browse by Category */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <stat.icon className="w-12 h-12 mx-auto mb-4 text-primary" />
-                <div className="text-3xl font-bold text-foreground mb-2">{stat.value}</div>
-                <div className="text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-            Why Choose Qara Homes
-          </h2>
-          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-            We're committed to making your property search experience seamless and trustworthy
-          </p>
-          
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Browse by Category</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
-                <feature.icon className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
-              </Card>
-            ))}
+            <div 
+              onClick={() => navigate('/airbnb')}
+              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600" 
+                alt="AirBnB" 
+                className="w-full h-64 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-2">AirBnB</h3>
+                  <p className="text-sm text-white/80">Free location access</p>
+                </div>
+              </div>
+            </div>
+            <div 
+              onClick={() => navigate('/rent')}
+              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600" 
+                alt="For Rent" 
+                className="w-full h-64 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
+                <h3 className="text-2xl font-bold text-white">For Rent</h3>
+              </div>
+            </div>
+            <div 
+              onClick={() => navigate('/buy')}
+              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=600" 
+                alt="For Sale" 
+                className="w-full h-64 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
+                <h3 className="text-2xl font-bold text-white">For Sale</h3>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -260,59 +267,30 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Categories */}
+      {/* Why Choose Us */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Browse by Category</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            Why Choose Qara Homes
+          </h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            We're committed to making your property search experience seamless and trustworthy
+          </p>
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div 
-              onClick={() => navigate('/airbnb')}
-              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
-            >
-              <img 
-                src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600" 
-                alt="AirBnB" 
-                className="w-full h-64 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
-                <div>
-                  <h3 className="text-2xl font-bold text-white mb-2">AirBnB</h3>
-                  <p className="text-sm text-white/80">Free location access</p>
-                </div>
-              </div>
-            </div>
-            <div 
-              onClick={() => navigate('/rent')}
-              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
-            >
-              <img 
-                src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600" 
-                alt="For Rent" 
-                className="w-full h-64 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
-                <h3 className="text-2xl font-bold text-white">For Rent</h3>
-              </div>
-            </div>
-            <div 
-              onClick={() => navigate('/buy')}
-              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
-            >
-              <img 
-                src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=600" 
-                alt="For Sale" 
-                className="w-full h-64 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
-                <h3 className="text-2xl font-bold text-white">For Sale</h3>
-              </div>
-            </div>
+            {features.map((feature, index) => (
+              <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
+                <feature.icon className="w-12 h-12 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+                <p className="text-muted-foreground">{feature.description}</p>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section className="py-16 px-4 bg-background">\
+      <section className="py-16 px-4 bg-background">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -358,7 +336,7 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-4 bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
