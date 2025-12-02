@@ -102,7 +102,7 @@ const Index = () => {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="https://cdn.pixabay.com/video/2022/11/18/139580-773266310_large.mp4" type="video/mp4" />
+          <source src="/videos/hero-background.mp4" type="video/mp4" />
         </video>
         
         {/* Overlay */}
