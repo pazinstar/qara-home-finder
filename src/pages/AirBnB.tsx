@@ -14,7 +14,14 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { CalendarIcon, Users, X } from "lucide-react";
+import { CalendarIcon, MapPin, Users, X } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface AirBnBProperty {
   id: string;
@@ -43,8 +50,18 @@ const AirBnB = () => {
   const [priceRange, setPriceRange] = useState([0, 20000]);
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<string>("");
 
   const propertyTypes = ["Bedsitter", "Studio", "1 Bedroom", "2 Bedroom", "3 Bedroom", "4+ Bedroom"];
+  const locations = [
+    { value: "", label: "All Locations" },
+    { value: "thika-road", label: "Thika Road" },
+    { value: "waiyaki-way", label: "Waiyaki Way" },
+    { value: "juja", label: "Juja" },
+    { value: "kikuyu", label: "Kikuyu" },
+    { value: "kinoo", label: "Kinoo" },
+    { value: "ruaka", label: "Ruaka" },
+  ];
 
   const properties: AirBnBProperty[] = [
     {
@@ -178,6 +195,14 @@ const AirBnB = () => {
       return false;
     }
 
+    // Location filter
+    if (selectedLocation) {
+      const locationLower = property.location.toLowerCase();
+      if (!locationLower.includes(selectedLocation.replace("-", " "))) {
+        return false;
+      }
+    }
+
     // Date availability filter
     if (checkIn && checkOut) {
       const availFrom = parseISO(property.availableFrom);
@@ -206,6 +231,7 @@ const AirBnB = () => {
     setPriceRange([0, 20000]);
     setSelectedAmenities([]);
     setSelectedPropertyTypes([]);
+    setSelectedLocation("");
   };
 
   const toggleAmenity = (amenity: string) => {
@@ -336,8 +362,26 @@ const AirBnB = () => {
                   </div>
                 </div>
 
+                {/* Location Filter */}
+                <div className="flex-1 space-y-2">
+                  <Label>Location</Label>
+                  <Select value={selectedLocation || "all"} onValueChange={(val) => setSelectedLocation(val === "all" ? "" : val)}>
+                    <SelectTrigger className="w-full">
+                      <MapPin className="mr-2 h-4 w-4" />
+                      <SelectValue placeholder="All Locations" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover z-50">
+                      {locations.map((loc) => (
+                        <SelectItem key={loc.value} value={loc.value || "all"}>
+                          {loc.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 {/* Clear Filters */}
-                {(checkIn || checkOut || guests > 1 || priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0 || selectedPropertyTypes.length > 0) && (
+                {(checkIn || checkOut || guests > 1 || priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0 || selectedPropertyTypes.length > 0 || selectedLocation) && (
                   <Button variant="ghost" onClick={clearFilters} className="gap-2">
                     <X className="h-4 w-4" />
                     Clear
