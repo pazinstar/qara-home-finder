@@ -60,7 +60,7 @@ const Hero = () => {
           poster={posterImage}
           className="absolute inset-0 w-full h-full object-cover opacity-70"
         >
-          <source src="https://cdn.pixabay.com/video/2022/11/07/138419-768661731_large.mp4" type="video/mp4" />
+          <source src="/videos/hero-background.mp4" type="video/mp4" />
         </video>
         
         {/* Light overlay for text readability */}
