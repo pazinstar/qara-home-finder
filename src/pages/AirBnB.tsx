@@ -24,6 +24,7 @@ interface AirBnBProperty {
   price: string;
   type: "rent";
   category: "airbnb";
+  propertyType: string;
   bedrooms: number;
   bathrooms: number;
   area: string;
@@ -41,6 +42,9 @@ const AirBnB = () => {
   const [guests, setGuests] = useState(1);
   const [priceRange, setPriceRange] = useState([0, 20000]);
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>([]);
+
+  const propertyTypes = ["Bedsitter", "Studio", "1 Bedroom", "2 Bedroom", "3 Bedroom", "4+ Bedroom"];
 
   const properties: AirBnBProperty[] = [
     {
@@ -51,6 +55,7 @@ const AirBnB = () => {
       price: "KES 4,500/night",
       type: "rent",
       category: "airbnb",
+      propertyType: "2 Bedroom",
       bedrooms: 2,
       bathrooms: 2,
       area: "85 sqm",
@@ -69,6 +74,7 @@ const AirBnB = () => {
       price: "KES 8,500/night",
       type: "rent",
       category: "airbnb",
+      propertyType: "3 Bedroom",
       bedrooms: 3,
       bathrooms: 3,
       area: "150 sqm",
@@ -87,6 +93,7 @@ const AirBnB = () => {
       price: "KES 2,500/night",
       type: "rent",
       category: "airbnb",
+      propertyType: "Studio",
       bedrooms: 1,
       bathrooms: 1,
       area: "40 sqm",
@@ -104,6 +111,7 @@ const AirBnB = () => {
       price: "KES 12,000/night",
       type: "rent",
       category: "airbnb",
+      propertyType: "4+ Bedroom",
       bedrooms: 4,
       bathrooms: 3,
       area: "200 sqm",
@@ -122,6 +130,7 @@ const AirBnB = () => {
       price: "KES 6,500/night",
       type: "rent",
       category: "airbnb",
+      propertyType: "1 Bedroom",
       bedrooms: 2,
       bathrooms: 2,
       area: "95 sqm",
@@ -133,20 +142,21 @@ const AirBnB = () => {
     },
     {
       id: "6",
-      title: "Garden Apartment",
+      title: "Compact Bedsitter",
       location: "Ruaka, Kiambu",
-      pricePerNight: 5500,
-      price: "KES 5,500/night",
+      pricePerNight: 1800,
+      price: "KES 1,800/night",
       type: "rent",
       category: "airbnb",
-      bedrooms: 2,
+      propertyType: "Bedsitter",
+      bedrooms: 1,
       bathrooms: 1,
-      area: "75 sqm",
+      area: "25 sqm",
       image: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=800&auto=format&fit=crop",
-      maxGuests: 3,
+      maxGuests: 1,
       availableFrom: "2024-01-01",
       availableTo: "2025-06-30",
-      amenities: ["WiFi", "Kitchen", "Garden"],
+      amenities: ["WiFi", "Kitchen"],
     },
   ];
 
@@ -160,6 +170,11 @@ const AirBnB = () => {
 
     // Guest filter
     if (property.maxGuests < guests) {
+      return false;
+    }
+
+    // Property type filter
+    if (selectedPropertyTypes.length > 0 && !selectedPropertyTypes.includes(property.propertyType)) {
       return false;
     }
 
@@ -190,6 +205,7 @@ const AirBnB = () => {
     setGuests(1);
     setPriceRange([0, 20000]);
     setSelectedAmenities([]);
+    setSelectedPropertyTypes([]);
   };
 
   const toggleAmenity = (amenity: string) => {
@@ -197,6 +213,14 @@ const AirBnB = () => {
       prev.includes(amenity) 
         ? prev.filter(a => a !== amenity)
         : [...prev, amenity]
+    );
+  };
+
+  const togglePropertyType = (type: string) => {
+    setSelectedPropertyTypes(prev => 
+      prev.includes(type) 
+        ? prev.filter(t => t !== type)
+        : [...prev, type]
     );
   };
 
@@ -313,7 +337,7 @@ const AirBnB = () => {
                 </div>
 
                 {/* Clear Filters */}
-                {(checkIn || checkOut || guests > 1 || priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0) && (
+                {(checkIn || checkOut || guests > 1 || priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0 || selectedPropertyTypes.length > 0) && (
                   <Button variant="ghost" onClick={clearFilters} className="gap-2">
                     <X className="h-4 w-4" />
                     Clear
@@ -327,6 +351,30 @@ const AirBnB = () => {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Filters Sidebar */}
             <div className="lg:col-span-1 space-y-6">
+              {/* Property Type */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Property Type</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {propertyTypes.map((type) => (
+                    <div key={type} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`type-${type}`}
+                        checked={selectedPropertyTypes.includes(type)}
+                        onCheckedChange={() => togglePropertyType(type)}
+                      />
+                      <label
+                        htmlFor={`type-${type}`}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                      >
+                        {type}
+                      </label>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
               {/* Price Range */}
               <Card>
                 <CardHeader>
