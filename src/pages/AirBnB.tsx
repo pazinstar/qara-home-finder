@@ -1,85 +1,212 @@
+import { useState } from "react";
+import { format, isWithinInterval, parseISO } from "date-fns";
 import Navbar from "@/components/Navbar";
 import PropertyCard from "@/components/PropertyCard";
-import FilterPanel from "@/components/FilterPanel";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
+import { CalendarIcon, Users, X } from "lucide-react";
+
+interface AirBnBProperty {
+  id: string;
+  title: string;
+  location: string;
+  pricePerNight: number;
+  price: string;
+  type: "rent";
+  category: "airbnb";
+  bedrooms: number;
+  bathrooms: number;
+  area: string;
+  image: string;
+  featured?: boolean;
+  maxGuests: number;
+  availableFrom: string;
+  availableTo: string;
+  amenities: string[];
+}
 
 const AirBnB = () => {
-  const properties = [
+  const [checkIn, setCheckIn] = useState<Date>();
+  const [checkOut, setCheckOut] = useState<Date>();
+  const [guests, setGuests] = useState(1);
+  const [priceRange, setPriceRange] = useState([0, 20000]);
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+
+  const properties: AirBnBProperty[] = [
     {
       id: "1",
       title: "Modern 2BR Apartment",
       location: "Thika Road, Nairobi",
-      price: "KES 45,000",
-      type: "rent" as const,
-      category: "airbnb" as const,
+      pricePerNight: 4500,
+      price: "KES 4,500/night",
+      type: "rent",
+      category: "airbnb",
       bedrooms: 2,
       bathrooms: 2,
       area: "85 sqm",
       image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&auto=format&fit=crop",
       featured: true,
+      maxGuests: 4,
+      availableFrom: "2024-01-01",
+      availableTo: "2025-12-31",
+      amenities: ["WiFi", "Kitchen", "Parking", "Pool"],
     },
     {
       id: "2",
       title: "Luxury 3BR Penthouse",
       location: "Waiyaki Way, Nairobi",
-      price: "KES 85,000",
-      type: "rent" as const,
-      category: "airbnb" as const,
+      pricePerNight: 8500,
+      price: "KES 8,500/night",
+      type: "rent",
+      category: "airbnb",
       bedrooms: 3,
       bathrooms: 3,
       area: "150 sqm",
       image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&auto=format&fit=crop",
       featured: true,
+      maxGuests: 6,
+      availableFrom: "2024-01-01",
+      availableTo: "2025-12-31",
+      amenities: ["WiFi", "Kitchen", "Parking", "Pool", "Gym"],
     },
     {
       id: "3",
       title: "Cozy Studio in Juja",
       location: "Juja, Kiambu",
-      price: "KES 25,000",
-      type: "rent" as const,
-      category: "airbnb" as const,
+      pricePerNight: 2500,
+      price: "KES 2,500/night",
+      type: "rent",
+      category: "airbnb",
       bedrooms: 1,
       bathrooms: 1,
       area: "40 sqm",
       image: "https://images.unsplash.com/photo-1502672023488-70e25813eb80?w=800&auto=format&fit=crop",
+      maxGuests: 2,
+      availableFrom: "2024-06-01",
+      availableTo: "2025-12-31",
+      amenities: ["WiFi", "Kitchen"],
     },
     {
       id: "4",
       title: "Family 4BR House",
       location: "Kikuyu, Kiambu",
-      price: "KES 120,000",
-      type: "rent" as const,
-      category: "airbnb" as const,
+      pricePerNight: 12000,
+      price: "KES 12,000/night",
+      type: "rent",
+      category: "airbnb",
       bedrooms: 4,
       bathrooms: 3,
       area: "200 sqm",
       image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&auto=format&fit=crop",
       featured: true,
+      maxGuests: 8,
+      availableFrom: "2024-01-01",
+      availableTo: "2025-12-31",
+      amenities: ["WiFi", "Kitchen", "Parking", "Garden", "BBQ"],
     },
     {
       id: "5",
       title: "Executive Loft",
       location: "Kinoo, Kiambu",
-      price: "KES 65,000",
-      type: "rent" as const,
-      category: "airbnb" as const,
+      pricePerNight: 6500,
+      price: "KES 6,500/night",
+      type: "rent",
+      category: "airbnb",
       bedrooms: 2,
       bathrooms: 2,
       area: "95 sqm",
       image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&auto=format&fit=crop",
+      maxGuests: 4,
+      availableFrom: "2024-03-01",
+      availableTo: "2025-12-31",
+      amenities: ["WiFi", "Kitchen", "Parking", "Workspace"],
     },
     {
       id: "6",
       title: "Garden Apartment",
       location: "Ruaka, Kiambu",
-      price: "KES 55,000",
-      type: "rent" as const,
-      category: "airbnb" as const,
+      pricePerNight: 5500,
+      price: "KES 5,500/night",
+      type: "rent",
+      category: "airbnb",
       bedrooms: 2,
       bathrooms: 1,
       area: "75 sqm",
       image: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=800&auto=format&fit=crop",
+      maxGuests: 3,
+      availableFrom: "2024-01-01",
+      availableTo: "2025-06-30",
+      amenities: ["WiFi", "Kitchen", "Garden"],
     },
   ];
+
+  const allAmenities = ["WiFi", "Kitchen", "Parking", "Pool", "Gym", "Garden", "BBQ", "Workspace"];
+
+  const filteredProperties = properties.filter((property) => {
+    // Price filter
+    if (property.pricePerNight < priceRange[0] || property.pricePerNight > priceRange[1]) {
+      return false;
+    }
+
+    // Guest filter
+    if (property.maxGuests < guests) {
+      return false;
+    }
+
+    // Date availability filter
+    if (checkIn && checkOut) {
+      const availFrom = parseISO(property.availableFrom);
+      const availTo = parseISO(property.availableTo);
+      
+      if (checkIn < availFrom || checkOut > availTo) {
+        return false;
+      }
+    }
+
+    // Amenities filter
+    if (selectedAmenities.length > 0) {
+      const hasAllAmenities = selectedAmenities.every(amenity => 
+        property.amenities.includes(amenity)
+      );
+      if (!hasAllAmenities) return false;
+    }
+
+    return true;
+  });
+
+  const clearFilters = () => {
+    setCheckIn(undefined);
+    setCheckOut(undefined);
+    setGuests(1);
+    setPriceRange([0, 20000]);
+    setSelectedAmenities([]);
+  };
+
+  const toggleAmenity = (amenity: string) => {
+    setSelectedAmenities(prev => 
+      prev.includes(amenity) 
+        ? prev.filter(a => a !== amenity)
+        : [...prev, amenity]
+    );
+  };
+
+  const calculateTotalPrice = (pricePerNight: number) => {
+    if (checkIn && checkOut) {
+      const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
+      return nights > 0 ? `KES ${(pricePerNight * nights).toLocaleString()} total` : null;
+    }
+    return null;
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -88,7 +215,7 @@ const AirBnB = () => {
       <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="mb-12">
+          <div className="mb-8">
             <h1 className="text-4xl sm:text-5xl font-bold mb-4">
               AirBnB Properties
             </h1>
@@ -97,26 +224,188 @@ const AirBnB = () => {
             </p>
           </div>
 
+          {/* Date & Guest Search Bar */}
+          <Card className="mb-8">
+            <CardContent className="p-4">
+              <div className="flex flex-col md:flex-row gap-4 items-end">
+                {/* Check-in Date */}
+                <div className="flex-1 space-y-2">
+                  <Label>Check-in</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !checkIn && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {checkIn ? format(checkIn, "PPP") : "Select date"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 bg-popover z-50" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={checkIn}
+                        onSelect={setCheckIn}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                        className="p-3 pointer-events-auto"
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                {/* Check-out Date */}
+                <div className="flex-1 space-y-2">
+                  <Label>Check-out</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !checkOut && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {checkOut ? format(checkOut, "PPP") : "Select date"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 bg-popover z-50" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={checkOut}
+                        onSelect={setCheckOut}
+                        disabled={(date) => date < (checkIn || new Date())}
+                        initialFocus
+                        className="p-3 pointer-events-auto"
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                {/* Guests */}
+                <div className="flex-1 space-y-2">
+                  <Label>Guests</Label>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setGuests(Math.max(1, guests - 1))}
+                      disabled={guests <= 1}
+                    >
+                      -
+                    </Button>
+                    <div className="flex items-center gap-2 px-4 py-2 border rounded-md flex-1 justify-center">
+                      <Users className="h-4 w-4" />
+                      <span>{guests} {guests === 1 ? "Guest" : "Guests"}</span>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setGuests(guests + 1)}
+                    >
+                      +
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Clear Filters */}
+                {(checkIn || checkOut || guests > 1 || priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0) && (
+                  <Button variant="ghost" onClick={clearFilters} className="gap-2">
+                    <X className="h-4 w-4" />
+                    Clear
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Content */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Filters */}
-            <div className="lg:col-span-1">
-              <FilterPanel />
+            {/* Filters Sidebar */}
+            <div className="lg:col-span-1 space-y-6">
+              {/* Price Range */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Price per night</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Slider
+                    value={priceRange}
+                    onValueChange={setPriceRange}
+                    min={0}
+                    max={20000}
+                    step={500}
+                  />
+                  <div className="flex justify-between text-sm text-muted-foreground">
+                    <span>KES {priceRange[0].toLocaleString()}</span>
+                    <span>KES {priceRange[1].toLocaleString()}</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Amenities */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Amenities</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {allAmenities.map((amenity) => (
+                    <div key={amenity} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={amenity}
+                        checked={selectedAmenities.includes(amenity)}
+                        onCheckedChange={() => toggleAmenity(amenity)}
+                      />
+                      <label
+                        htmlFor={amenity}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                      >
+                        {amenity}
+                      </label>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
             </div>
 
             {/* Property Grid */}
             <div className="lg:col-span-3">
               <div className="mb-6 flex items-center justify-between">
                 <p className="text-muted-foreground">
-                  Showing {properties.length} properties
+                  Showing {filteredProperties.length} of {properties.length} properties
                 </p>
+                {checkIn && checkOut && (
+                  <p className="text-sm text-primary font-medium">
+                    {Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24))} nights selected
+                  </p>
+                )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {properties.map((property) => (
-                  <PropertyCard key={property.id} {...property} />
-                ))}
-              </div>
+              {filteredProperties.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-lg text-muted-foreground mb-4">
+                    No properties match your filters
+                  </p>
+                  <Button onClick={clearFilters}>Clear all filters</Button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {filteredProperties.map((property) => (
+                    <div key={property.id} className="relative">
+                      <PropertyCard {...property} />
+                      {calculateTotalPrice(property.pricePerNight) && (
+                        <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium z-10">
+                          {calculateTotalPrice(property.pricePerNight)}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
