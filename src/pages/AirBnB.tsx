@@ -1,27 +1,10 @@
 import { useState } from "react";
-import { format, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 import Navbar from "@/components/Navbar";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
-import { CalendarIcon, Check, ChevronsUpDown, Filter, List, Map, MapPin, Users, X } from "lucide-react";
+import { Filter, List, Map } from "lucide-react";
 import AirBnBMap from "@/components/AirBnBMap";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 import {
   Sheet,
   SheetContent,
@@ -284,180 +267,33 @@ const AirBnB = () => {
             </p>
           </div>
 
-          {/* Date & Guest Search Bar */}
-          <Card className="mb-8">
-            <CardContent className="p-4">
-              <div className="flex flex-col md:flex-row gap-4 items-end">
-                {/* Check-in Date */}
-                <div className="flex-1 space-y-2">
-                  <Label>Check-in</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full justify-start text-left font-normal",
-                          !checkIn && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {checkIn ? format(checkIn, "PPP") : "Select date"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 bg-popover z-50" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={checkIn}
-                        onSelect={setCheckIn}
-                        disabled={(date) => date < new Date()}
-                        initialFocus
-                        className="p-3 pointer-events-auto"
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-
-                {/* Check-out Date */}
-                <div className="flex-1 space-y-2">
-                  <Label>Check-out</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full justify-start text-left font-normal",
-                          !checkOut && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {checkOut ? format(checkOut, "PPP") : "Select date"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 bg-popover z-50" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={checkOut}
-                        onSelect={setCheckOut}
-                        disabled={(date) => date < (checkIn || new Date())}
-                        initialFocus
-                        className="p-3 pointer-events-auto"
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-
-                {/* Guests */}
-                <div className="flex-1 space-y-2">
-                  <Label>Guests</Label>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => setGuests(Math.max(1, guests - 1))}
-                      disabled={guests <= 1}
-                    >
-                      -
-                    </Button>
-                    <div className="flex items-center gap-2 px-4 py-2 border rounded-md flex-1 justify-center">
-                      <Users className="h-4 w-4" />
-                      <span>{guests} {guests === 1 ? "Guest" : "Guests"}</span>
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => setGuests(guests + 1)}
-                    >
-                      +
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Location Filter */}
-                <div className="flex-1 space-y-2">
-                  <Label>Location</Label>
-                  <Popover open={locationOpen} onOpenChange={setLocationOpen}>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={locationOpen}
-                        className="w-full justify-between"
-                      >
-                        <div className="flex items-center">
-                          <MapPin className="mr-2 h-4 w-4" />
-                          {selectedLocation
-                            ? locations.find((loc) => loc.value === selectedLocation)?.label || selectedLocation
-                            : "All Locations"}
-                        </div>
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0 bg-popover z-50">
-                      <Command>
-                        <CommandInput
-                          placeholder="Search or type location..."
-                          value={selectedLocation}
-                          onValueChange={(value) => setSelectedLocation(value)}
-                        />
-                        <CommandList>
-                          <CommandEmpty>
-                            <span className="text-sm text-muted-foreground">
-                              Using: "{selectedLocation}"
-                            </span>
-                          </CommandEmpty>
-                          <CommandGroup>
-                            {locations.map((loc) => (
-                              <CommandItem
-                                key={loc.value || "all"}
-                                value={loc.label}
-                                onSelect={() => {
-                                  setSelectedLocation(loc.value);
-                                  setLocationOpen(false);
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    selectedLocation === loc.value ? "opacity-100" : "opacity-0"
-                                  )}
-                                />
-                                {loc.label}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                </div>
-
-                {/* Clear Filters */}
-                {(checkIn || checkOut || guests > 1 || priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0 || selectedPropertyTypes.length > 0 || selectedLocation) && (
-                  <Button variant="ghost" onClick={clearFilters} className="gap-2">
-                    <X className="h-4 w-4" />
-                    Clear
-                  </Button>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Content */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Desktop Filters Sidebar - Hidden on mobile */}
             <div className="hidden lg:block lg:col-span-1">
-              <AirBnBFilterSidebar
-                propertyTypes={propertyTypes}
-                selectedPropertyTypes={selectedPropertyTypes}
-                togglePropertyType={togglePropertyType}
-                priceRange={priceRange}
-                setPriceRange={setPriceRange}
-                allAmenities={allAmenities}
-                selectedAmenities={selectedAmenities}
-                toggleAmenity={toggleAmenity}
-                clearFilters={clearFilters}
-                hasActiveFilters={priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0 || selectedPropertyTypes.length > 0}
-              />
+                        <AirBnBFilterSidebar
+                          propertyTypes={propertyTypes}
+                          selectedPropertyTypes={selectedPropertyTypes}
+                          togglePropertyType={togglePropertyType}
+                          priceRange={priceRange}
+                          setPriceRange={setPriceRange}
+                          allAmenities={allAmenities}
+                          selectedAmenities={selectedAmenities}
+                          toggleAmenity={toggleAmenity}
+                          clearFilters={clearFilters}
+                          hasActiveFilters={checkIn !== undefined || checkOut !== undefined || guests > 1 || priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0 || selectedPropertyTypes.length > 0 || selectedLocation !== ""}
+                          checkIn={checkIn}
+                          setCheckIn={setCheckIn}
+                          checkOut={checkOut}
+                          setCheckOut={setCheckOut}
+                          guests={guests}
+                          setGuests={setGuests}
+                          selectedLocation={selectedLocation}
+                          setSelectedLocation={setSelectedLocation}
+                          locations={locations}
+                          locationOpen={locationOpen}
+                          setLocationOpen={setLocationOpen}
+                        />
             </div>
 
             {/* Property Grid */}
@@ -479,9 +315,9 @@ const AirBnB = () => {
                       <Button variant="outline" size="sm" className="lg:hidden gap-2">
                         <Filter className="h-4 w-4" />
                         Filters
-                        {(selectedPropertyTypes.length > 0 || selectedAmenities.length > 0 || priceRange[0] > 0 || priceRange[1] < 20000) && (
+                        {(checkIn || checkOut || guests > 1 || selectedLocation || selectedPropertyTypes.length > 0 || selectedAmenities.length > 0 || priceRange[0] > 0 || priceRange[1] < 20000) && (
                           <span className="bg-primary text-primary-foreground rounded-full px-1.5 py-0.5 text-xs">
-                            {selectedPropertyTypes.length + selectedAmenities.length + (priceRange[0] > 0 || priceRange[1] < 20000 ? 1 : 0)}
+                            {(checkIn ? 1 : 0) + (checkOut ? 1 : 0) + (guests > 1 ? 1 : 0) + (selectedLocation ? 1 : 0) + selectedPropertyTypes.length + selectedAmenities.length + (priceRange[0] > 0 || priceRange[1] < 20000 ? 1 : 0)}
                           </span>
                         )}
                       </Button>
@@ -491,18 +327,29 @@ const AirBnB = () => {
                         <SheetTitle>Filters</SheetTitle>
                       </SheetHeader>
                       <div className="mt-6">
-                        <AirBnBFilterSidebar
-                          propertyTypes={propertyTypes}
-                          selectedPropertyTypes={selectedPropertyTypes}
-                          togglePropertyType={togglePropertyType}
-                          priceRange={priceRange}
-                          setPriceRange={setPriceRange}
-                          allAmenities={allAmenities}
-                          selectedAmenities={selectedAmenities}
-                          toggleAmenity={toggleAmenity}
-                          clearFilters={clearFilters}
-                          hasActiveFilters={priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0 || selectedPropertyTypes.length > 0}
-                        />
+              <AirBnBFilterSidebar
+                propertyTypes={propertyTypes}
+                selectedPropertyTypes={selectedPropertyTypes}
+                togglePropertyType={togglePropertyType}
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+                allAmenities={allAmenities}
+                selectedAmenities={selectedAmenities}
+                toggleAmenity={toggleAmenity}
+                clearFilters={clearFilters}
+                hasActiveFilters={checkIn !== undefined || checkOut !== undefined || guests > 1 || priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0 || selectedPropertyTypes.length > 0 || selectedLocation !== ""}
+                checkIn={checkIn}
+                setCheckIn={setCheckIn}
+                checkOut={checkOut}
+                setCheckOut={setCheckOut}
+                guests={guests}
+                setGuests={setGuests}
+                selectedLocation={selectedLocation}
+                setSelectedLocation={setSelectedLocation}
+                locations={locations}
+                locationOpen={locationOpen}
+                setLocationOpen={setLocationOpen}
+              />
                       </div>
                     </SheetContent>
                   </Sheet>
