@@ -19,6 +19,7 @@ import Auth from "./pages/Auth";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import Properties from "./pages/admin/Properties";
+import AirBnBManagement from "./pages/admin/AirBnBManagement";
 import Bookings from "./pages/admin/Bookings";
 import Messages from "./pages/admin/Messages";
 import Users from "./pages/admin/Users";
@@ -47,6 +48,7 @@ const App = () => (
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="properties" element={<Properties />} />
+          <Route path="airbnb" element={<AirBnBManagement />} />
           <Route path="bookings" element={<Bookings />} />
           <Route path="messages" element={<Messages />} />
           <Route path="users" element={<Users />} />
