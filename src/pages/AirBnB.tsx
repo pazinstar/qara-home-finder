@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { format, isWithinInterval, parseISO } from "date-fns";
+import { format, parseISO } from "date-fns";
 import Navbar from "@/components/Navbar";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
@@ -9,12 +9,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { CalendarIcon, Check, ChevronsUpDown, List, Map, MapPin, Users, X } from "lucide-react";
+import { CalendarIcon, Check, ChevronsUpDown, Filter, List, Map, MapPin, Users, X } from "lucide-react";
 import AirBnBMap from "@/components/AirBnBMap";
 import {
   Command,
@@ -24,6 +22,14 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import AirBnBFilterSidebar from "@/components/AirBnBFilterSidebar";
 
 interface AirBnBProperty {
   id: string;
@@ -438,75 +444,20 @@ const AirBnB = () => {
 
           {/* Content */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Filters Sidebar */}
-            <div className="lg:col-span-1 space-y-6">
-              {/* Property Type */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Property Type</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {propertyTypes.map((type) => (
-                    <div key={type} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={`type-${type}`}
-                        checked={selectedPropertyTypes.includes(type)}
-                        onCheckedChange={() => togglePropertyType(type)}
-                      />
-                      <label
-                        htmlFor={`type-${type}`}
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                      >
-                        {type}
-                      </label>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-
-              {/* Price Range */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Price per night</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <Slider
-                    value={priceRange}
-                    onValueChange={setPriceRange}
-                    min={0}
-                    max={20000}
-                    step={500}
-                  />
-                  <div className="flex justify-between text-sm text-muted-foreground">
-                    <span>KES {priceRange[0].toLocaleString()}</span>
-                    <span>KES {priceRange[1].toLocaleString()}</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Amenities */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Amenities</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {allAmenities.map((amenity) => (
-                    <div key={amenity} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={amenity}
-                        checked={selectedAmenities.includes(amenity)}
-                        onCheckedChange={() => toggleAmenity(amenity)}
-                      />
-                      <label
-                        htmlFor={amenity}
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                      >
-                        {amenity}
-                      </label>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
+            {/* Desktop Filters Sidebar - Hidden on mobile */}
+            <div className="hidden lg:block lg:col-span-1">
+              <AirBnBFilterSidebar
+                propertyTypes={propertyTypes}
+                selectedPropertyTypes={selectedPropertyTypes}
+                togglePropertyType={togglePropertyType}
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+                allAmenities={allAmenities}
+                selectedAmenities={selectedAmenities}
+                toggleAmenity={toggleAmenity}
+                clearFilters={clearFilters}
+                hasActiveFilters={priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0 || selectedPropertyTypes.length > 0}
+              />
             </div>
 
             {/* Property Grid */}
@@ -515,12 +466,47 @@ const AirBnB = () => {
                 <p className="text-muted-foreground">
                   Showing {filteredProperties.length} of {properties.length} properties
                 </p>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 sm:gap-4">
                   {checkIn && checkOut && (
-                    <p className="text-sm text-primary font-medium">
+                    <p className="text-sm text-primary font-medium hidden sm:block">
                       {Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24))} nights selected
                     </p>
                   )}
+                  
+                  {/* Mobile Filter Button */}
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" size="sm" className="lg:hidden gap-2">
+                        <Filter className="h-4 w-4" />
+                        Filters
+                        {(selectedPropertyTypes.length > 0 || selectedAmenities.length > 0 || priceRange[0] > 0 || priceRange[1] < 20000) && (
+                          <span className="bg-primary text-primary-foreground rounded-full px-1.5 py-0.5 text-xs">
+                            {selectedPropertyTypes.length + selectedAmenities.length + (priceRange[0] > 0 || priceRange[1] < 20000 ? 1 : 0)}
+                          </span>
+                        )}
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent side="right" className="w-[300px] sm:w-[350px] overflow-y-auto">
+                      <SheetHeader>
+                        <SheetTitle>Filters</SheetTitle>
+                      </SheetHeader>
+                      <div className="mt-6">
+                        <AirBnBFilterSidebar
+                          propertyTypes={propertyTypes}
+                          selectedPropertyTypes={selectedPropertyTypes}
+                          togglePropertyType={togglePropertyType}
+                          priceRange={priceRange}
+                          setPriceRange={setPriceRange}
+                          allAmenities={allAmenities}
+                          selectedAmenities={selectedAmenities}
+                          toggleAmenity={toggleAmenity}
+                          clearFilters={clearFilters}
+                          hasActiveFilters={priceRange[0] > 0 || priceRange[1] < 20000 || selectedAmenities.length > 0 || selectedPropertyTypes.length > 0}
+                        />
+                      </div>
+                    </SheetContent>
+                  </Sheet>
+
                   <div className="flex items-center border rounded-lg overflow-hidden">
                     <Button
                       variant={viewMode === "list" ? "default" : "ghost"}
