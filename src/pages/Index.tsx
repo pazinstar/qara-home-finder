@@ -4,8 +4,9 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Search, MapPin, Home, Star, Calendar, Users, Building2, Shield, TrendingUp, Award } from "lucide-react";
+import { Search, MapPin, Home, Star, Calendar, Users, Shield, TrendingUp } from "lucide-react";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import { ScrollReveal } from "@/hooks/use-scroll-animation";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -159,131 +160,148 @@ const Index = () => {
       {/* Browse by Category */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Browse by Category</h2>
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Browse by Category</h2>
+          </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div 
-              onClick={() => navigate('/airbnb')}
-              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
-            >
-              <img 
-                src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600" 
-                alt="AirBnB" 
-                className="w-full h-64 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
-                <div>
-                  <h3 className="text-2xl font-bold text-white mb-2">AirBnB</h3>
-                  <p className="text-sm text-white/80">Free location access</p>
+            <ScrollReveal delay={0}>
+              <div 
+                onClick={() => navigate('/airbnb')}
+                className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600" 
+                  alt="AirBnB" 
+                  className="w-full h-64 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white mb-2">AirBnB</h3>
+                    <p className="text-sm text-white/80">Free location access</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div 
-              onClick={() => navigate('/rent')}
-              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
-            >
-              <img 
-                src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600" 
-                alt="For Rent" 
-                className="w-full h-64 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
-                <h3 className="text-2xl font-bold text-white">For Rent</h3>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <div 
+                onClick={() => navigate('/rent')}
+                className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600" 
+                  alt="For Rent" 
+                  className="w-full h-64 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
+                  <h3 className="text-2xl font-bold text-white">For Rent</h3>
+                </div>
               </div>
-            </div>
-            <div 
-              onClick={() => navigate('/buy')}
-              className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
-            >
-              <img 
-                src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=600" 
-                alt="For Sale" 
-                className="w-full h-64 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
-                <h3 className="text-2xl font-bold text-white">For Sale</h3>
+            </ScrollReveal>
+            <ScrollReveal delay={200}>
+              <div 
+                onClick={() => navigate('/buy')}
+                className="group relative overflow-hidden rounded-xl cursor-pointer transform hover:scale-105 transition-all duration-300"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=600" 
+                  alt="For Sale" 
+                  className="w-full h-64 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent flex items-end p-6">
+                  <h3 className="text-2xl font-bold text-white">For Sale</h3>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
       {/* Featured Properties */}
       <section className="py-16 px-4 max-w-7xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Featured Properties
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            Handpicked homes for you
-          </p>
-        </div>
+        <ScrollReveal>
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Featured Properties
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              Handpicked homes for you
+            </p>
+          </div>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredProperties.map((property) => (
-            <Card 
-              key={property.id}
-              className="group cursor-pointer overflow-hidden border-border hover:shadow-lg transition-all"
-              onClick={() => navigate(`/property/${property.id}`)}
-            >
-              <div className="relative h-64 overflow-hidden">
-                <img 
-                  src={property.image} 
-                  alt={property.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-4">
-                <div className="flex items-start justify-between mb-2">
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-1">{property.type}</p>
-                    <h3 className="font-semibold text-foreground">{property.title}</h3>
+          {featuredProperties.map((property, index) => (
+            <ScrollReveal key={property.id} delay={index * 100}>
+              <Card 
+                className="group cursor-pointer overflow-hidden border-border hover:shadow-lg transition-all h-full"
+                onClick={() => navigate(`/property/${property.id}`)}
+              >
+                <div className="relative h-64 overflow-hidden">
+                  <img 
+                    src={property.image} 
+                    alt={property.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">{property.type}</p>
+                      <h3 className="font-semibold text-foreground">{property.title}</h3>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-accent text-accent" />
+                      <span className="text-sm font-medium">{property.rating}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-accent text-accent" />
-                    <span className="text-sm font-medium">{property.rating}</span>
+                  <p className="text-sm text-muted-foreground mb-3 flex items-center gap-1">
+                    <MapPin className="w-3 h-3" />
+                    {property.location}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-lg font-bold text-foreground">{property.price}</p>
+                    <p className="text-xs text-muted-foreground">{property.reviews} reviews</p>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground mb-3 flex items-center gap-1">
-                  <MapPin className="w-3 h-3" />
-                  {property.location}
-                </p>
-                <div className="flex items-center justify-between">
-                  <p className="text-lg font-bold text-foreground">{property.price}</p>
-                  <p className="text-xs text-muted-foreground">{property.reviews} reviews</p>
-                </div>
-              </div>
-            </Card>
+              </Card>
+            </ScrollReveal>
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <Button 
-            size="lg"
-            onClick={() => navigate('/rent')}
-            className="bg-primary text-primary-foreground hover:bg-primary/90"
-          >
-            View All Properties
-          </Button>
-        </div>
+        <ScrollReveal>
+          <div className="text-center mt-12">
+            <Button 
+              size="lg"
+              onClick={() => navigate('/rent')}
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              View All Properties
+            </Button>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* Why Choose Us */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-            Why Choose Qara Homes
-          </h2>
-          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-            We're committed to making your property search experience seamless and trustworthy
-          </p>
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+              Why Choose Qara Homes
+            </h2>
+            <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+              We're committed to making your property search experience seamless and trustworthy
+            </p>
+          </ScrollReveal>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
-                <feature.icon className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
-              </Card>
+              <ScrollReveal key={index} delay={index * 100}>
+                <Card className="p-6 hover:shadow-lg transition-shadow h-full">
+                  <feature.icon className="w-12 h-12 text-primary mb-4" />
+                  <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+                  <p className="text-muted-foreground">{feature.description}</p>
+                </Card>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -292,45 +310,53 @@ const Index = () => {
       {/* How It Works */}
       <section className="py-16 px-4 bg-background">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              How It Works
-            </h2>
-            <p className="text-muted-foreground text-lg">
-              Simple steps to find your dream home
-            </p>
-          </div>
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                How It Works
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Simple steps to find your dream home
+              </p>
+            </div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                <Search className="w-8 h-8 text-accent" />
+            <ScrollReveal delay={0}>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-foreground">Search Properties</h3>
+                <p className="text-muted-foreground">
+                  Browse through our extensive collection of properties or search by location
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-foreground">Search Properties</h3>
-              <p className="text-muted-foreground">
-                Browse through our extensive collection of properties or search by location
-              </p>
-            </div>
+            </ScrollReveal>
 
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                <Calendar className="w-8 h-8 text-accent" />
+            <ScrollReveal delay={100}>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-foreground">Book or View Free</h3>
+                <p className="text-muted-foreground">
+                  View locations for free or pay 50% to secure your booking
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-foreground">Book or View Free</h3>
-              <p className="text-muted-foreground">
-                View locations for free or pay 50% to secure your booking
-              </p>
-            </div>
+            </ScrollReveal>
 
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                <Home className="w-8 h-8 text-accent" />
+            <ScrollReveal delay={200}>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <Home className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-foreground">Move In</h3>
+                <p className="text-muted-foreground">
+                  Schedule a tour, complete payment, and move into your new home
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-foreground">Move In</h3>
-              <p className="text-muted-foreground">
-                Schedule a tour, complete payment, and move into your new home
-              </p>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -339,53 +365,63 @@ const Index = () => {
       <section className="py-16 px-4 bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">500+</div>
-              <div className="text-muted-foreground">Properties Listed</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">1000+</div>
-              <div className="text-muted-foreground">Happy Clients</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">50+</div>
-              <div className="text-muted-foreground">Locations</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">98%</div>
-              <div className="text-muted-foreground">Satisfaction Rate</div>
-            </div>
+            <ScrollReveal delay={0}>
+              <div className="text-center">
+                <div className="text-4xl md:text-5xl font-bold text-accent mb-2">500+</div>
+                <div className="text-muted-foreground">Properties Listed</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <div className="text-center">
+                <div className="text-4xl md:text-5xl font-bold text-accent mb-2">1000+</div>
+                <div className="text-muted-foreground">Happy Clients</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={200}>
+              <div className="text-center">
+                <div className="text-4xl md:text-5xl font-bold text-accent mb-2">50+</div>
+                <div className="text-muted-foreground">Locations</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={300}>
+              <div className="text-center">
+                <div className="text-4xl md:text-5xl font-bold text-accent mb-2">98%</div>
+                <div className="text-muted-foreground">Satisfaction Rate</div>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-accent/20 to-primary/10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
-            Ready to Find Your Home?
-          </h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Join thousands of happy tenants who found their perfect home with QARA HOMES
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg"
-              onClick={() => navigate('/request-tour')}
-              className="h-14 px-8 text-lg bg-primary text-primary-foreground hover:bg-primary/90"
-            >
-              Schedule a Tour
-            </Button>
-            <Button 
-              size="lg"
-              variant="outline"
-              onClick={() => window.location.href = 'tel:0745812620'}
-              className="h-14 px-8 text-lg border-border hover:bg-accent hover:text-accent-foreground"
-            >
-              Call Us Now
-            </Button>
+        <ScrollReveal>
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
+              Ready to Find Your Home?
+            </h2>
+            <p className="text-xl text-muted-foreground mb-8">
+              Join thousands of happy tenants who found their perfect home with QARA HOMES
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                size="lg"
+                onClick={() => navigate('/request-tour')}
+                className="h-14 px-8 text-lg bg-primary text-primary-foreground hover:bg-primary/90"
+              >
+                Schedule a Tour
+              </Button>
+              <Button 
+                size="lg"
+                variant="outline"
+                onClick={() => window.location.href = 'tel:0745812620'}
+                className="h-14 px-8 text-lg border-border hover:bg-accent hover:text-accent-foreground"
+              >
+                Call Us Now
+              </Button>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* Footer */}
