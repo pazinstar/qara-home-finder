@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import {
   Carousel,
@@ -36,6 +37,7 @@ import {
   ArrowLeft,
   Navigation,
   ZoomIn,
+  MessageSquare,
 } from "lucide-react";
 import ImagePreviewModal from "@/components/ImagePreviewModal";
 
@@ -121,6 +123,16 @@ const PropertyDetail = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [imagePreviewOpen, setImagePreviewOpen] = useState(false);
   const [previewImageIndex, setPreviewImageIndex] = useState(0);
+  
+  // Message dialog state
+  const [showMessageDialog, setShowMessageDialog] = useState(false);
+  const [messageForm, setMessageForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
 
   const openImagePreview = (index: number) => {
     setPreviewImageIndex(index);
@@ -163,6 +175,30 @@ const PropertyDetail = () => {
         description: "The exact location has been unlocked. Scroll down to view the map.",
       });
     }, 2000);
+  };
+
+  const handleSendMessage = () => {
+    if (!messageForm.name || !messageForm.email || !messageForm.message) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSendingMessage(true);
+    
+    // Simulate sending message
+    setTimeout(() => {
+      setIsSendingMessage(false);
+      setShowMessageDialog(false);
+      setMessageForm({ name: "", email: "", phone: "", message: "" });
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you as soon as possible.",
+      });
+    }, 1500);
   };
 
   const amenityIcons: Record<string, any> = {
@@ -366,12 +402,13 @@ const PropertyDetail = () => {
                       Request a Tour
                     </Button>
                     <Button
-                      onClick={() => navigate('/contact')}
+                      onClick={() => setShowMessageDialog(true)}
                       variant="outline"
                       className="w-full"
                       size="lg"
                     >
-                      Contact Agent
+                      <MessageSquare className="mr-2" size={20} />
+                      Send Message
                     </Button>
                     {!locationUnlocked && (
                       <Button
@@ -437,6 +474,76 @@ const PropertyDetail = () => {
               className="w-full sm:w-auto bg-primary hover:bg-primary/90"
             >
               {isProcessing ? "Processing..." : "Pay Now"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Message Dialog */}
+      <Dialog open={showMessageDialog} onOpenChange={setShowMessageDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Send a Message</DialogTitle>
+            <DialogDescription>
+              Inquire about: {property.title}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="msg-name">Your Name *</Label>
+              <Input
+                id="msg-name"
+                placeholder="John Doe"
+                value={messageForm.name}
+                onChange={(e) => setMessageForm({ ...messageForm, name: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="msg-email">Email Address *</Label>
+              <Input
+                id="msg-email"
+                type="email"
+                placeholder="john@example.com"
+                value={messageForm.email}
+                onChange={(e) => setMessageForm({ ...messageForm, email: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="msg-phone">Phone Number</Label>
+              <Input
+                id="msg-phone"
+                type="tel"
+                placeholder="07XX XXX XXX"
+                value={messageForm.phone}
+                onChange={(e) => setMessageForm({ ...messageForm, phone: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="msg-message">Your Message *</Label>
+              <Textarea
+                id="msg-message"
+                placeholder="I'm interested in this property..."
+                value={messageForm.message}
+                onChange={(e) => setMessageForm({ ...messageForm, message: e.target.value })}
+                rows={4}
+              />
+            </div>
+          </div>
+          <DialogFooter className="flex-col sm:flex-row gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setShowMessageDialog(false)}
+              disabled={isSendingMessage}
+              className="w-full sm:w-auto"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSendMessage}
+              disabled={isSendingMessage}
+              className="w-full sm:w-auto bg-primary hover:bg-primary/90"
+            >
+              {isSendingMessage ? "Sending..." : "Send Message"}
             </Button>
           </DialogFooter>
         </DialogContent>
