@@ -20,6 +20,7 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import Properties from "./pages/admin/Properties";
 import Bookings from "./pages/admin/Bookings";
+import Messages from "./pages/admin/Messages";
 import Users from "./pages/admin/Users";
 import AdminSettings from "./pages/admin/Settings";
 
@@ -47,6 +48,7 @@ const App = () => (
           <Route index element={<Dashboard />} />
           <Route path="properties" element={<Properties />} />
           <Route path="bookings" element={<Bookings />} />
+          <Route path="messages" element={<Messages />} />
           <Route path="users" element={<Users />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>

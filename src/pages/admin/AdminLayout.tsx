@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Home, Calendar, Users, Settings, Menu, LogOut, User } from "lucide-react";
+import { LayoutDashboard, Home, Calendar, Users, Settings, Menu, LogOut, User, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -17,6 +17,7 @@ const AdminLayout = () => {
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
     { icon: Home, label: "Properties", path: "/admin/properties" },
     { icon: Calendar, label: "Bookings", path: "/admin/bookings" },
+    { icon: MessageSquare, label: "Messages", path: "/admin/messages" },
     { icon: Users, label: "Users", path: "/admin/users" },
     { icon: Settings, label: "Settings", path: "/admin/settings" },
   ];
