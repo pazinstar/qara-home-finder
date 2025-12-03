@@ -4,7 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Edit, Trash2, Eye, Upload, X, FileVideo, Image as ImageIcon, SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { Plus, Search, Edit, Trash2, Eye, Upload, X, FileVideo, Image as ImageIcon, SlidersHorizontal, ArrowUpDown, CalendarDays } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
 import {
   Pagination,
   PaginationContent,
@@ -65,6 +67,7 @@ interface Property {
   furnished: boolean;
   petFriendly: boolean;
   dateAdded: string;
+  bookedDates: Date[];
 }
 
 interface PropertyFormProps {
@@ -90,6 +93,8 @@ interface PropertyFormProps {
   setImages: React.Dispatch<React.SetStateAction<MediaFile[]>>;
   video: MediaFile | null;
   setVideo: React.Dispatch<React.SetStateAction<MediaFile | null>>;
+  bookedDates: Date[];
+  setBookedDates: React.Dispatch<React.SetStateAction<Date[]>>;
   handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleVideoUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   removeImage: (id: string) => void;
@@ -104,6 +109,8 @@ const PropertyForm = ({
   setImages,
   video, 
   setVideo,
+  bookedDates,
+  setBookedDates,
   handleImageUpload,
   handleVideoUpload,
   removeImage,
@@ -378,6 +385,47 @@ const PropertyForm = ({
           </div>
         )}
       </div>
+
+      {/* Availability Calendar */}
+      <div className="space-y-4 border-t pt-4">
+        <h3 className="font-semibold text-foreground flex items-center gap-2">
+          <CalendarDays className="h-5 w-5" />
+          Availability Calendar
+        </h3>
+        <p className="text-sm text-muted-foreground">
+          Click on dates to mark them as <span className="text-destructive font-medium">booked</span>. Unselected dates are <span className="text-green-500 font-medium">available</span>.
+        </p>
+        <div className="border rounded-lg p-4 bg-muted/30">
+          <Calendar
+            mode="multiple"
+            selected={bookedDates}
+            onSelect={(dates) => setBookedDates(dates || [])}
+            numberOfMonths={2}
+            className="pointer-events-auto"
+            modifiers={{
+              booked: bookedDates
+            }}
+            modifiersClassNames={{
+              booked: "bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            }}
+          />
+        </div>
+        {bookedDates.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            <span className="text-sm text-muted-foreground">Booked dates:</span>
+            {bookedDates.slice(0, 5).map((date, idx) => (
+              <Badge key={idx} variant="destructive" className="text-xs">
+                {format(date, "MMM d, yyyy")}
+              </Badge>
+            ))}
+            {bookedDates.length > 5 && (
+              <Badge variant="outline" className="text-xs">
+                +{bookedDates.length - 5} more
+              </Badge>
+            )}
+          </div>
+        )}
+      </div>
   </div>
 );
 
@@ -424,6 +472,7 @@ const Properties = () => {
   });
   const [images, setImages] = useState<MediaFile[]>([]);
   const [video, setVideo] = useState<MediaFile | null>(null);
+  const [bookedDates, setBookedDates] = useState<Date[]>([]);
   
   const itemsPerPage = 8;
 
@@ -447,6 +496,7 @@ const Properties = () => {
       furnished: true,
       petFriendly: true,
       dateAdded: "2025-01-15",
+      bookedDates: [new Date(2025, 11, 10), new Date(2025, 11, 11), new Date(2025, 11, 12)],
       images: [
         { id: "1", name: "john_doe_lavington_villa_1.jpg", type: "image", path: "public/john_doe/images/john_doe_lavington_villa_1.jpg", preview: "/placeholder.svg" },
         { id: "2", name: "john_doe_lavington_villa_2.jpg", type: "image", path: "public/john_doe/images/john_doe_lavington_villa_2.jpg", preview: "/placeholder.svg" }
@@ -472,6 +522,7 @@ const Properties = () => {
       furnished: false,
       petFriendly: false,
       dateAdded: "2025-02-10",
+      bookedDates: [],
       images: [
         { id: "3", name: "jane_smith_kilimani_apartment_1.jpg", type: "image", path: "public/jane_smith/images/jane_smith_kilimani_apartment_1.jpg", preview: "/placeholder.svg" }
       ],
@@ -555,6 +606,7 @@ const Properties = () => {
     });
     setImages([]);
     setVideo(null);
+    setBookedDates([]);
   };
 
   const clearFilters = () => {
@@ -659,7 +711,8 @@ const Properties = () => {
       parking: formData.parking,
       furnished: formData.furnished,
       petFriendly: formData.petFriendly,
-      dateAdded: new Date().toISOString().split('T')[0]
+      dateAdded: new Date().toISOString().split('T')[0],
+      bookedDates: bookedDates
     };
 
     setAllProperties([...allProperties, newProperty]);
@@ -689,6 +742,7 @@ const Properties = () => {
     });
     setImages(property.images);
     setVideo(property.video);
+    setBookedDates(property.bookedDates);
     setIsEditDialogOpen(true);
   };
 
@@ -718,7 +772,8 @@ const Properties = () => {
             yearBuilt: formData.yearBuilt,
             parking: formData.parking,
             furnished: formData.furnished,
-            petFriendly: formData.petFriendly
+            petFriendly: formData.petFriendly,
+            bookedDates: bookedDates
           }
         : prop
     );
@@ -1022,6 +1077,8 @@ const Properties = () => {
               setImages={setImages}
               video={video}
               setVideo={setVideo}
+              bookedDates={bookedDates}
+              setBookedDates={setBookedDates}
               handleImageUpload={handleImageUpload}
               handleVideoUpload={handleVideoUpload}
               removeImage={removeImage}
@@ -1054,6 +1111,8 @@ const Properties = () => {
               setImages={setImages}
               video={video}
               setVideo={setVideo}
+              bookedDates={bookedDates}
+              setBookedDates={setBookedDates}
               handleImageUpload={handleImageUpload}
               handleVideoUpload={handleVideoUpload}
               removeImage={removeImage}
@@ -1173,6 +1232,40 @@ const Properties = () => {
                     <p className="text-xs text-muted-foreground mt-1">{viewProperty.video.path}</p>
                   </div>
                 )}
+                {/* Availability Calendar */}
+                <div>
+                  <Label className="text-muted-foreground flex items-center gap-2">
+                    <CalendarDays className="h-4 w-4" />
+                    Availability Calendar
+                  </Label>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    Red dates are booked, other dates are available.
+                  </p>
+                  <div className="border rounded-lg p-4 bg-muted/30">
+                    <Calendar
+                      mode="multiple"
+                      selected={viewProperty.bookedDates}
+                      numberOfMonths={2}
+                      className="pointer-events-none"
+                      modifiers={{
+                        booked: viewProperty.bookedDates
+                      }}
+                      modifiersClassNames={{
+                        booked: "bg-destructive text-destructive-foreground"
+                      }}
+                    />
+                  </div>
+                  {viewProperty.bookedDates.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <span className="text-sm text-muted-foreground">Booked dates:</span>
+                      {viewProperty.bookedDates.map((date, idx) => (
+                        <Badge key={idx} variant="destructive" className="text-xs">
+                          {format(date, "MMM d, yyyy")}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
