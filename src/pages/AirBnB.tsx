@@ -66,7 +66,7 @@ const AirBnB = () => {
 
   const properties: AirBnBProperty[] = [
     {
-      id: "1",
+      id: "airbnb-1",
       title: "Modern 2BR Apartment",
       location: "Thika Road, Nairobi",
       pricePerNight: 4500,
@@ -85,7 +85,7 @@ const AirBnB = () => {
       amenities: ["WiFi", "Kitchen", "Parking", "Pool"],
     },
     {
-      id: "2",
+      id: "airbnb-2",
       title: "Luxury 3BR Penthouse",
       location: "Waiyaki Way, Nairobi",
       pricePerNight: 8500,
@@ -104,7 +104,7 @@ const AirBnB = () => {
       amenities: ["WiFi", "Kitchen", "Parking", "Pool", "Gym"],
     },
     {
-      id: "3",
+      id: "airbnb-3",
       title: "Cozy Studio in Juja",
       location: "Juja, Kiambu",
       pricePerNight: 2500,
@@ -122,7 +122,7 @@ const AirBnB = () => {
       amenities: ["WiFi", "Kitchen"],
     },
     {
-      id: "4",
+      id: "airbnb-4",
       title: "Family 4BR House",
       location: "Kikuyu, Kiambu",
       pricePerNight: 12000,
@@ -141,7 +141,7 @@ const AirBnB = () => {
       amenities: ["WiFi", "Kitchen", "Parking", "Garden", "BBQ"],
     },
     {
-      id: "5",
+      id: "airbnb-5",
       title: "Executive Loft",
       location: "Kinoo, Kiambu",
       pricePerNight: 6500,
@@ -159,7 +159,7 @@ const AirBnB = () => {
       amenities: ["WiFi", "Kitchen", "Parking", "Workspace"],
     },
     {
-      id: "6",
+      id: "airbnb-6",
       title: "Compact Bedsitter",
       location: "Ruaka, Kiambu",
       pricePerNight: 1800,
