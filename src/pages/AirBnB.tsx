@@ -3,7 +3,7 @@ import { parseISO } from "date-fns";
 import Navbar from "@/components/Navbar";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
-import { Filter, List, Map } from "lucide-react";
+import { Filter, List, Map, CalendarCheck } from "lucide-react";
 import AirBnBMap from "@/components/AirBnBMap";
 import {
   Sheet,
@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import AirBnBFilterSidebar from "@/components/AirBnBFilterSidebar";
+import AirBnBReservationDialog from "@/components/AirBnBReservationDialog";
 
 interface AirBnBProperty {
   id: string;
@@ -43,6 +44,13 @@ const AirBnB = () => {
   const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [locationOpen, setLocationOpen] = useState(false);
+  const [reservationOpen, setReservationOpen] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<AirBnBProperty | null>(null);
+
+  const handleReserve = (property: AirBnBProperty) => {
+    setSelectedProperty(property);
+    setReservationOpen(true);
+  };
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
 
   const propertyTypes = ["Bedsitter", "Studio", "1 Bedroom", "2 Bedroom", "3 Bedroom", "4+ Bedroom"];
@@ -389,18 +397,32 @@ const AirBnB = () => {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredProperties.map((property) => (
-                    <div key={property.id} className="relative">
+                    <div key={property.id} className="relative group">
                       <PropertyCard {...property} />
                       {calculateTotalPrice(property.pricePerNight) && (
                         <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium z-10">
                           {calculateTotalPrice(property.pricePerNight)}
                         </div>
                       )}
+                      <Button
+                        onClick={() => handleReserve(property)}
+                        className="absolute bottom-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-primary hover:bg-primary/90"
+                      >
+                        <CalendarCheck className="mr-2 h-4 w-4" />
+                        Reserve
+                      </Button>
                     </div>
                   ))}
                 </div>
               )}
             </div>
+
+            {/* Reservation Dialog */}
+            <AirBnBReservationDialog
+              property={selectedProperty}
+              open={reservationOpen}
+              onOpenChange={setReservationOpen}
+            />
           </div>
         </div>
       </div>
