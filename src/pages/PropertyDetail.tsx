@@ -38,8 +38,10 @@ import {
   Navigation,
   ZoomIn,
   MessageSquare,
+  CalendarCheck,
 } from "lucide-react";
 import ImagePreviewModal from "@/components/ImagePreviewModal";
+import AirBnBReservationDialog from "@/components/AirBnBReservationDialog";
 
 // Mock property data with multiple images and video
 const getPropertyById = (id: string) => {
@@ -49,10 +51,13 @@ const getPropertyById = (id: string) => {
       title: "Modern 3-Bedroom Villa",
       location: "Karen, Nairobi",
       price: "KES 180,000",
+      pricePerNight: 0,
       type: "rent" as const,
+      category: "rent" as const,
       bedrooms: 3,
       bathrooms: 3,
       area: "250 sqm",
+      maxGuests: 6,
       images: [
         "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&auto=format&fit=crop",
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&auto=format&fit=crop",
@@ -71,10 +76,13 @@ const getPropertyById = (id: string) => {
       title: "Luxury Penthouse",
       location: "Westlands, Nairobi",
       price: "KES 45,000,000",
+      pricePerNight: 0,
       type: "sale" as const,
+      category: "sale" as const,
       bedrooms: 4,
       bathrooms: 4,
       area: "320 sqm",
+      maxGuests: 8,
       images: [
         "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&auto=format&fit=crop",
         "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&auto=format&fit=crop",
@@ -92,10 +100,13 @@ const getPropertyById = (id: string) => {
       title: "Cozy Studio Apartment",
       location: "Kilimani, Nairobi",
       price: "KES 55,000",
+      pricePerNight: 0,
       type: "rent" as const,
+      category: "rent" as const,
       bedrooms: 1,
       bathrooms: 1,
       area: "45 sqm",
+      maxGuests: 2,
       images: [
         "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&auto=format&fit=crop",
         "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&auto=format&fit=crop",
@@ -105,6 +116,142 @@ const getPropertyById = (id: string) => {
       features: ["WiFi", "Security", "Parking"],
       yearBuilt: 2021,
       mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8045!2d36.7833!3d-1.2845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMTcnMDQuMiJTIDM2wrA0Nic1OS45IkU!5e0!3m2!1sen!2ske!4v1234567890",
+    },
+    // AirBnB Properties
+    {
+      id: "airbnb-1",
+      title: "Modern 2BR Apartment",
+      location: "Thika Road, Nairobi",
+      price: "KES 4,500/night",
+      pricePerNight: 4500,
+      type: "rent" as const,
+      category: "airbnb" as const,
+      bedrooms: 2,
+      bathrooms: 2,
+      area: "85 sqm",
+      maxGuests: 4,
+      images: [
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&auto=format&fit=crop",
+      ],
+      video: "https://www.youtube.com/embed/zumJJUL_ruM",
+      description: "Beautiful modern apartment perfect for short stays. Fully furnished with all amenities included.",
+      features: ["WiFi", "Kitchen", "Parking", "Pool"],
+      yearBuilt: 2022,
+      featured: true,
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7744!2d36.7194!3d-1.2921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMTcnMzEuNiJTIDM2wrA0MycxMC4wIkU!5e0!3m2!1sen!2ske!4v1234567890",
+    },
+    {
+      id: "airbnb-2",
+      title: "Luxury 3BR Penthouse",
+      location: "Waiyaki Way, Nairobi",
+      price: "KES 8,500/night",
+      pricePerNight: 8500,
+      type: "rent" as const,
+      category: "airbnb" as const,
+      bedrooms: 3,
+      bathrooms: 3,
+      area: "150 sqm",
+      maxGuests: 6,
+      images: [
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&auto=format&fit=crop",
+      ],
+      video: "https://www.youtube.com/embed/zumJJUL_ruM",
+      description: "Luxurious penthouse with stunning city views. Perfect for families or groups.",
+      features: ["WiFi", "Kitchen", "Parking", "Pool", "Gym"],
+      yearBuilt: 2023,
+      featured: true,
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8124!2d36.8076!3d-1.2633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMTUnNDcuOSJTIDM2wrA0OCcyNy40IkU!5e0!3m2!1sen!2ske!4v1234567890",
+    },
+    {
+      id: "airbnb-3",
+      title: "Cozy Studio in Juja",
+      location: "Juja, Kiambu",
+      price: "KES 2,500/night",
+      pricePerNight: 2500,
+      type: "rent" as const,
+      category: "airbnb" as const,
+      bedrooms: 1,
+      bathrooms: 1,
+      area: "40 sqm",
+      maxGuests: 2,
+      images: [
+        "https://images.unsplash.com/photo-1502672023488-70e25813eb80?w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&auto=format&fit=crop",
+      ],
+      video: "https://www.youtube.com/embed/zumJJUL_ruM",
+      description: "Charming studio apartment in Juja. Perfect for students and young professionals.",
+      features: ["WiFi", "Kitchen"],
+      yearBuilt: 2021,
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7744!2d36.7194!3d-1.2921",
+    },
+    {
+      id: "airbnb-4",
+      title: "Family 4BR House",
+      location: "Kikuyu, Kiambu",
+      price: "KES 12,000/night",
+      pricePerNight: 12000,
+      type: "rent" as const,
+      category: "airbnb" as const,
+      bedrooms: 4,
+      bathrooms: 3,
+      area: "200 sqm",
+      maxGuests: 8,
+      images: [
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&auto=format&fit=crop",
+      ],
+      video: "https://www.youtube.com/embed/zumJJUL_ruM",
+      description: "Spacious family home with garden and BBQ area. Perfect for large groups.",
+      features: ["WiFi", "Kitchen", "Parking", "Garden", "BBQ"],
+      yearBuilt: 2020,
+      featured: true,
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7744!2d36.7194!3d-1.2921",
+    },
+    {
+      id: "airbnb-5",
+      title: "Executive Loft",
+      location: "Kinoo, Kiambu",
+      price: "KES 6,500/night",
+      pricePerNight: 6500,
+      type: "rent" as const,
+      category: "airbnb" as const,
+      bedrooms: 2,
+      bathrooms: 2,
+      area: "95 sqm",
+      maxGuests: 4,
+      images: [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&auto=format&fit=crop",
+      ],
+      video: "https://www.youtube.com/embed/zumJJUL_ruM",
+      description: "Modern executive loft with dedicated workspace. Ideal for business travelers.",
+      features: ["WiFi", "Kitchen", "Parking", "Workspace"],
+      yearBuilt: 2022,
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7744!2d36.7194!3d-1.2921",
+    },
+    {
+      id: "airbnb-6",
+      title: "Compact Bedsitter",
+      location: "Ruaka, Kiambu",
+      price: "KES 1,800/night",
+      pricePerNight: 1800,
+      type: "rent" as const,
+      category: "airbnb" as const,
+      bedrooms: 1,
+      bathrooms: 1,
+      area: "25 sqm",
+      maxGuests: 1,
+      images: [
+        "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&auto=format&fit=crop",
+      ],
+      video: "https://www.youtube.com/embed/zumJJUL_ruM",
+      description: "Affordable bedsitter for solo travelers. Basic amenities included.",
+      features: ["WiFi", "Kitchen"],
+      yearBuilt: 2019,
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7744!2d36.7194!3d-1.2921",
     },
   ];
 
@@ -133,6 +280,11 @@ const PropertyDetail = () => {
     message: "",
   });
   const [isSendingMessage, setIsSendingMessage] = useState(false);
+  
+  // Reservation dialog state (for AirBnB)
+  const [reservationOpen, setReservationOpen] = useState(false);
+
+  const isAirBnB = property?.category === "airbnb";
 
   const openImagePreview = (index: number) => {
     setPreviewImageIndex(index);
@@ -394,31 +546,55 @@ const PropertyDetail = () => {
                   </div>
 
                   <div className="space-y-3">
-                    <Button 
-                      onClick={() => navigate('/request-tour')}
-                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" 
-                      size="lg"
-                    >
-                      Request a Tour
-                    </Button>
-                    <Button
-                      onClick={() => setShowMessageDialog(true)}
-                      variant="outline"
-                      className="w-full"
-                      size="lg"
-                    >
-                      <MessageSquare className="mr-2" size={20} />
-                      Send Message
-                    </Button>
-                    {!locationUnlocked && (
-                      <Button
-                        onClick={() => setShowPaymentDialog(true)}
-                        className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
-                        size="lg"
-                      >
-                        <Navigation className="mr-2" size={20} />
-                        Get Exact Location
-                      </Button>
+                    {isAirBnB ? (
+                      <>
+                        <Button 
+                          onClick={() => setReservationOpen(true)}
+                          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" 
+                          size="lg"
+                        >
+                          <CalendarCheck className="mr-2" size={20} />
+                          Reserve Now
+                        </Button>
+                        <Button
+                          onClick={() => setShowMessageDialog(true)}
+                          variant="outline"
+                          className="w-full"
+                          size="lg"
+                        >
+                          <MessageSquare className="mr-2" size={20} />
+                          Send Message
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button 
+                          onClick={() => navigate('/request-tour')}
+                          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" 
+                          size="lg"
+                        >
+                          Request a Tour
+                        </Button>
+                        <Button
+                          onClick={() => setShowMessageDialog(true)}
+                          variant="outline"
+                          className="w-full"
+                          size="lg"
+                        >
+                          <MessageSquare className="mr-2" size={20} />
+                          Send Message
+                        </Button>
+                        {!locationUnlocked && (
+                          <Button
+                            onClick={() => setShowPaymentDialog(true)}
+                            className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                            size="lg"
+                          >
+                            <Navigation className="mr-2" size={20} />
+                            Get Exact Location
+                          </Button>
+                        )}
+                      </>
                     )}
                   </div>
 
@@ -557,6 +733,22 @@ const PropertyDetail = () => {
         onClose={() => setImagePreviewOpen(false)}
         altPrefix={property.title}
       />
+
+      {/* AirBnB Reservation Dialog */}
+      {isAirBnB && (
+        <AirBnBReservationDialog
+          property={{
+            id: property.id,
+            title: property.title,
+            location: property.location,
+            pricePerNight: property.pricePerNight,
+            image: property.images[0],
+            maxGuests: property.maxGuests,
+          }}
+          open={reservationOpen}
+          onOpenChange={setReservationOpen}
+        />
+      )}
     </div>
   );
 };
